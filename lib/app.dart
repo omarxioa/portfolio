@@ -10,7 +10,7 @@ class PortfolioApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      title: 'Omar Abdelnaby Portfolio',
+      title: 'Omar Abdelnaby',
       theme: AppTheme.dark,
       initialRoute: '/',
       onGenerateRoute: AppRouter.onGenerateRoute,
