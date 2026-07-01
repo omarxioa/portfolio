@@ -43,6 +43,9 @@ abstract final class AppData {
 
   static const linkedin = 'https://www.linkedin.com/in/omar-xioa/';
 
+  static const whatsAppUrl =
+      'https://wa.me/?text=Hi%20Omar%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20talk%20about%20a%20project.';
+
   static const about =
       'Senior Flutter Developer with 5+ years of experience building scalable mobile applications. Founder of SOAcode and experienced in leading development teams, architecting enterprise solutions, and delivering production-ready applications for startups and businesses.';
 

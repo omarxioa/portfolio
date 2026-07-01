@@ -90,6 +90,8 @@ class _HeroTextLayout extends StatelessWidget {
       padding: const EdgeInsets.only(top: AppSpace.xl, bottom: AppSpace.lg),
       child: LayoutBuilder(
         builder: (context, constraints) {
+          final viewport = AppBreakpoints.fromWidth(constraints.maxWidth);
+          final isMobile = viewport == AppViewport.mobile;
           final isNarrow = constraints.maxWidth < 1024;
 
           return Stack(
@@ -101,16 +103,19 @@ class _HeroTextLayout extends StatelessWidget {
                   onLetsTalkPressed: onLetsTalkPressed,
                 ),
               ),
-              Align(
-                alignment: isNarrow ? Alignment.topRight : Alignment.centerRight,
-                child: Padding(
-                  padding: EdgeInsets.only(
-                    right: AppSpace.xs,
-                    top: isNarrow ? AppSpace.xs : 0,
+              if (!isMobile)
+                Align(
+                  alignment: isNarrow
+                      ? Alignment.topRight
+                      : Alignment.centerRight,
+                  child: Padding(
+                    padding: EdgeInsets.only(
+                      right: AppSpace.xs,
+                      top: isNarrow ? AppSpace.xs : 0,
+                    ),
+                    child: _HeroSideRail(compact: isNarrow),
                   ),
-                  child: _HeroSideRail(compact: isNarrow),
                 ),
-              ),
             ],
           );
         },

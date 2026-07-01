@@ -117,6 +117,23 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  Future<void> _openExternalLink(String url, String errorMessage) async {
+    final uri = Uri.parse(url);
+    final launched = await launchUrl(uri, mode: LaunchMode.platformDefault);
+    if (!launched) {
+      _notify(errorMessage);
+    }
+  }
+
+  Future<void> _openWhatsApp() =>
+      _openExternalLink(AppData.whatsAppUrl, 'Unable to open WhatsApp.');
+
+  Future<void> _openLinkedIn() =>
+      _openExternalLink(AppData.linkedin, 'Unable to open LinkedIn profile.');
+
+  Future<void> _openGithub() =>
+      _openExternalLink(AppData.github, 'Unable to open GitHub profile.');
+
   void _dismissIntro() {
     if (!_showIntro) return;
     setState(() {
@@ -261,7 +278,14 @@ class _HomePageState extends State<HomePage> {
                       key: _experienceKey,
                       child: const ExperienceSection(),
                     ),
-                    KeyedSubtree(key: _footerKey, child: const FooterSection()),
+                    KeyedSubtree(
+                      key: _footerKey,
+                      child: FooterSection(
+                        onWhatsApp: _openWhatsApp,
+                        onLinkedIn: _openLinkedIn,
+                        onGithub: _openGithub,
+                      ),
+                    ),
                   ],
                 ),
               ),
