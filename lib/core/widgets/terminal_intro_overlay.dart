@@ -23,15 +23,18 @@ class TerminalIntroOverlay extends StatefulWidget {
 
 class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
     with SingleTickerProviderStateMixin {
+  static const int _typedLinesFromEnd = 2;
+
   static const List<String> _modernScript = [
     'myphz@archlinux:~\$ pwd',
     '/home/daniel/Documents',
     'myphz@archlinux:~\$ cd portfolio',
     'myphz@archlinux:~/portfolio\$ ls',
-    'src/  public/  package.json  vite.config.ts',
-    'myphz@archlinux:~/portfolio\$ npm run dev',
-    'Starting development server...',
-    'Portfolio launched',
+    'analysis_options.yaml  pubspec.yaml  README.md  lib/  assets/  web/',
+    'myphz@archlinux:~/portfolio\$ flutter pub get',
+    'Resolving dependencies... done',
+    'myphz@archlinux:~/portfolio\$ flutter run -d chrome',
+    'Launching lib/main.dart on Chrome in debug mode...',
   ];
 
   late final AnimationController _blinkController;
@@ -52,10 +55,12 @@ class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
       '/home/$user/Documents',
       '$user@archlinux:\$ cd portfolio',
       '$user@archlinux:~/portfolio\$ ls',
-      'node_modules/  package-lock.json  public/  src/  index.html  package.json',
-      'postcss.config.js  README.md  tailwind.config.ts  tsconfig.json  vite.config.ts',
-      '${AppData.name} - ${AppData.title}',
-      '$user@archlinux:~/portfolio\$ clear',
+      'analysis_options.yaml  pubspec.yaml  README.md  lib/  assets/  web/',
+      'android/  ios/  macos/  test/  build/',
+      '$user@archlinux:~/portfolio\$ flutter pub get',
+      'Resolving dependencies... done',
+      '$user@archlinux:~/portfolio\$ flutter run -d chrome',
+      'Launching lib/main.dart on Chrome in debug mode...',
     ];
   }
 
@@ -101,6 +106,9 @@ class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
   @override
   void initState() {
     super.initState();
+    _lineIndex = (_script.length - _typedLinesFromEnd).clamp(0, _script.length);
+    _charIndex = 0;
+
     _blinkController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 900),
@@ -168,6 +176,7 @@ class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
     final textTheme = Theme.of(context).textTheme;
     final palette = _palette;
     final isClassic = widget.style == TerminalIntroStyle.classicCmd;
+    final terminalLetterSpacing = isClassic ? -0.35 : -0.1;
     final terminalFontFamily = isClassic ? 'Courier New' : 'monospace';
     final terminalFontFallback = isClassic
         ? const ['Consolas', 'Menlo', 'Courier New', 'monospace']
@@ -255,7 +264,7 @@ class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
                               fontWeight: isClassic
                                   ? FontWeight.w600
                                   : FontWeight.w400,
-                              letterSpacing: isClassic ? 0.1 : 0,
+                              letterSpacing: terminalLetterSpacing,
                               fontSize: palette.fullscreen ? 16 : null,
                               height: 1.35,
                             ),
@@ -273,7 +282,7 @@ class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
                                 fontWeight: isClassic
                                     ? FontWeight.w600
                                     : FontWeight.w400,
-                                letterSpacing: isClassic ? 0.1 : 0,
+                                letterSpacing: terminalLetterSpacing,
                                 fontSize: palette.fullscreen ? 16 : null,
                                 height: 1.35,
                               ),

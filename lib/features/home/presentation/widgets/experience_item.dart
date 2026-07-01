@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../../../../core/constants/app_colors.dart';
 import '../../../../core/constants/app_data.dart';
+import '../../../../core/theme/tokens/app_space.dart';
+import '../../../../core/widgets/primitives/app_tag.dart';
 
 class ExperienceItem extends StatelessWidget {
   const ExperienceItem({super.key, required this.entry});
@@ -16,7 +18,7 @@ class ExperienceItem extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
-          margin: const EdgeInsets.only(top: 6),
+          margin: const EdgeInsets.only(top: AppSpace.xs),
           width: 8,
           height: 8,
           decoration: const BoxDecoration(
@@ -24,7 +26,7 @@ class ExperienceItem extends StatelessWidget {
             shape: BoxShape.circle,
           ),
         ),
-        const SizedBox(width: 10),
+        const SizedBox(width: AppSpace.sm),
         Expanded(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -42,12 +44,8 @@ class ExperienceItem extends StatelessWidget {
                   color: AppColors.secondaryText,
                 ),
               ),
-              Text(
-                entry.duration,
-                style: textTheme.bodyMedium?.copyWith(
-                  color: AppColors.secondaryText,
-                ),
-              ),
+              const SizedBox(height: AppSpace.xs),
+              AppTag(label: entry.duration),
             ],
           ),
         ),
