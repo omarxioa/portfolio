@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:url_launcher/url_launcher.dart';
 
+import '../../../../../core/constants/app_data.dart';
 import '../../../../../core/constants/app_colors.dart';
 import '../../../../../core/theme/tokens/app_breakpoints.dart';
 import '../../../../../core/theme/tokens/app_radius.dart';
@@ -243,6 +245,31 @@ class _SelectedWorkList extends StatelessWidget {
           solution: 'Offline reminders + adherence tracking + support circle.',
           impact:
               'Built as a scalable Flutter application with clean architecture and local-first synchronization.',
+          highlights: const [
+            'Adherence +37%',
+            'Local-first sync',
+            'Reminders at scale',
+          ],
+          contributions: const [
+            'Designed feature architecture with Riverpod + Clean Architecture.',
+            'Implemented local persistence and sync-safe data flows.',
+            'Built notification and reminder reliability across app states.',
+          ],
+          actions: [
+            _CaseStudyAction(
+              label: 'Discuss This Project',
+              icon: Icons.chat_rounded,
+              url: AppData.whatsAppInquiryUrl('myMed'),
+              primary: true,
+            ),
+            _CaseStudyAction(
+              label: 'View GitHub',
+              icon: Icons.open_in_new_rounded,
+              url: AppData.myMedRepoUrl,
+            ),
+          ],
+          roleScopeDuration:
+              'Role: Founder & Senior Flutter Developer • Scope: Product, Architecture, Delivery • Duration: 2024 - Present',
           technologies: const [
             'Flutter',
             'Riverpod',
@@ -273,6 +300,31 @@ class _SelectedWorkList extends StatelessWidget {
               'Offline-first prayer reminders, full Adhan playback, accurate prayer calculations, Quran, Qibla and multilingual support.',
           impact:
               'Built as a scalable Flutter application focused on reliability, local scheduling, accessibility and distraction-free daily worship.',
+          highlights: const [
+            'Offline-first runtime',
+            'Reliable prayer alerts',
+            'Multilingual UX',
+          ],
+          contributions: const [
+            'Engineered background-safe scheduling for prayer reminders.',
+            'Integrated Quran, Qibla, and settings into one cohesive flow.',
+            'Shaped interaction model for calm and focused daily usage.',
+          ],
+          actions: [
+            _CaseStudyAction(
+              label: 'Discuss This Project',
+              icon: Icons.chat_rounded,
+              url: AppData.whatsAppInquiryUrl('Salati'),
+              primary: true,
+            ),
+            _CaseStudyAction(
+              label: 'View GitHub',
+              icon: Icons.open_in_new_rounded,
+              url: AppData.salatiRepoUrl,
+            ),
+          ],
+          roleScopeDuration:
+              'Role: Founder & Senior Flutter Developer • Scope: Product, Reminder Engine, UX • Duration: 2025 - Present',
           technologies: const [
             'Flutter',
             'Riverpod',
@@ -307,6 +359,10 @@ class _SelectedWorkCard extends StatefulWidget {
     required this.problem,
     required this.solution,
     required this.impact,
+    required this.highlights,
+    required this.contributions,
+    required this.actions,
+    required this.roleScopeDuration,
     required this.technologies,
     required this.activeIndex,
     required this.onTabSelected,
@@ -325,6 +381,10 @@ class _SelectedWorkCard extends StatefulWidget {
   final String problem;
   final String solution;
   final String impact;
+  final List<String> highlights;
+  final List<String> contributions;
+  final List<_CaseStudyAction> actions;
+  final String roleScopeDuration;
   final List<String> technologies;
   final int activeIndex;
   final ValueChanged<int> onTabSelected;
@@ -341,6 +401,19 @@ class _SelectedWorkCard extends StatefulWidget {
 
 class _SelectedWorkCardState extends State<_SelectedWorkCard> {
   bool _hovered = false;
+
+  Future<void> _openActionUrl(String url) async {
+    final uri = Uri.parse(url);
+    final launched = await launchUrl(uri, mode: LaunchMode.platformDefault);
+    if (!launched && mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Unable to open the requested link.'),
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -394,6 +467,11 @@ class _SelectedWorkCardState extends State<_SelectedWorkCard> {
                           problem: widget.problem,
                           solution: widget.solution,
                           impact: widget.impact,
+                          highlights: widget.highlights,
+                          contributions: widget.contributions,
+                          actions: widget.actions,
+                          roleScopeDuration: widget.roleScopeDuration,
+                          onActionTap: _openActionUrl,
                           technologies: widget.technologies,
                           activeScreen: widget.screens[widget.activeIndex],
                           useActiveSubtitle: widget.useActiveSubtitle,
@@ -424,6 +502,11 @@ class _SelectedWorkCardState extends State<_SelectedWorkCard> {
                             problem: widget.problem,
                             solution: widget.solution,
                             impact: widget.impact,
+                            highlights: widget.highlights,
+                            contributions: widget.contributions,
+                            actions: widget.actions,
+                            roleScopeDuration: widget.roleScopeDuration,
+                            onActionTap: _openActionUrl,
                             technologies: widget.technologies,
                             activeScreen: widget.screens[widget.activeIndex],
                             useActiveSubtitle: widget.useActiveSubtitle,
@@ -460,6 +543,11 @@ class _CaseStudyCopy extends StatelessWidget {
     required this.problem,
     required this.solution,
     required this.impact,
+    required this.highlights,
+    required this.contributions,
+    required this.actions,
+    required this.roleScopeDuration,
+    required this.onActionTap,
     required this.technologies,
     required this.activeScreen,
     required this.useActiveSubtitle,
@@ -472,6 +560,11 @@ class _CaseStudyCopy extends StatelessWidget {
   final String problem;
   final String solution;
   final String impact;
+  final List<String> highlights;
+  final List<String> contributions;
+  final List<_CaseStudyAction> actions;
+  final String roleScopeDuration;
+  final ValueChanged<String> onActionTap;
   final List<String> technologies;
   final _CaseStudyScreen activeScreen;
   final bool useActiveSubtitle;
@@ -507,6 +600,14 @@ class _CaseStudyCopy extends StatelessWidget {
               color: AppColors.text,
             ),
           ),
+          const SizedBox(height: AppSpace.xs),
+          Text(
+            roleScopeDuration,
+            style: textTheme.bodySmall?.copyWith(
+              color: AppColors.secondaryText,
+              height: 1.45,
+            ),
+          ),
           const SizedBox(height: AppSpace.md),
           Text(
             description,
@@ -522,6 +623,73 @@ class _CaseStudyCopy extends StatelessWidget {
           _InfoBlock(label: 'Solution', value: solution),
           const SizedBox(height: AppSpace.lg),
           _InfoBlock(label: 'Impact', value: impact),
+          const SizedBox(height: AppSpace.lg),
+          Wrap(
+            spacing: AppSpace.xs,
+            runSpacing: AppSpace.xs,
+            children: highlights
+                .asMap()
+                .entries
+                .map(
+                  (entry) => _StaggeredReveal(
+                    index: entry.key,
+                    child: _KpiChip(label: entry.value),
+                  ),
+                )
+                .toList(),
+          ),
+          const SizedBox(height: AppSpace.lg),
+          _Eyebrow(text: 'My Contribution'),
+          const SizedBox(height: AppSpace.xs),
+          ...contributions.asMap().entries.map(
+            (entry) => _StaggeredReveal(
+              index: entry.key + 2,
+              child: Padding(
+                padding: const EdgeInsets.only(bottom: AppSpace.xs),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const Padding(
+                      padding: EdgeInsets.only(top: 7),
+                      child: Icon(
+                        Icons.circle,
+                        size: 6,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const SizedBox(width: AppSpace.sm),
+                    Expanded(
+                      child: Text(
+                        entry.value,
+                        style: textTheme.bodyMedium?.copyWith(
+                          color: AppColors.text,
+                          height: 1.5,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          const SizedBox(height: AppSpace.md),
+          Wrap(
+            spacing: AppSpace.sm,
+            runSpacing: AppSpace.sm,
+            children: actions
+                .asMap()
+                .entries
+                .map(
+                  (entry) => _StaggeredReveal(
+                    index: entry.key + 4,
+                    child: _ActionButton(
+                      action: entry.value,
+                      onTap: () => onActionTap(entry.value.url),
+                    ),
+                  ),
+                )
+                .toList(),
+          ),
           const SizedBox(height: AppSpace.xl),
           Wrap(
             spacing: AppSpace.xs,
@@ -586,6 +754,7 @@ class _PhoneColumn extends StatelessWidget {
       ).where((index) => !preferredTabOrder.contains(screens[index].title)),
     ];
     final icons = tabIndices.map((index) => screens[index].navIcon).toList();
+    final labels = tabIndices.map((index) => screens[index].title).toList();
 
     return Column(
       mainAxisSize: MainAxisSize.min,
@@ -625,6 +794,7 @@ class _PhoneColumn extends StatelessWidget {
                   child: _CaseStudyTabs(
                     activeIndex: activeIndex,
                     icons: icons,
+                    labels: labels,
                     tabIndices: tabIndices,
                     onSelected: onTabSelected,
                   ),
@@ -693,18 +863,9 @@ class _PhoneMockup extends StatelessWidget {
                   },
                   child: KeyedSubtree(
                     key: ValueKey(activeScreen.title),
-                    child: Image.asset(
-                      activeScreen.imagePath(isLightMode),
-                      fit: BoxFit.cover,
-                      alignment: Alignment.topCenter,
-                      errorBuilder: (context, error, stackTrace) {
-                        return const Center(
-                          child: Text(
-                            'Screenshot unavailable',
-                            style: TextStyle(color: AppColors.secondaryText),
-                          ),
-                        );
-                      },
+                    child: _OptimizedCaseStudyImage(
+                      assetPath: activeScreen.imagePath(isLightMode),
+                      semanticLabel: '${activeScreen.title} preview',
                     ),
                   ),
                 ),
@@ -780,12 +941,14 @@ class _PhoneBackdrop extends StatelessWidget {
 class _CaseStudyTabs extends StatefulWidget {
   const _CaseStudyTabs({
     required this.icons,
+    required this.labels,
     required this.tabIndices,
     required this.activeIndex,
     required this.onSelected,
   });
 
   final List<IconData> icons;
+  final List<String> labels;
   final List<int> tabIndices;
   final int activeIndex;
   final ValueChanged<int> onSelected;
@@ -796,6 +959,7 @@ class _CaseStudyTabs extends StatefulWidget {
 
 class _CaseStudyTabsState extends State<_CaseStudyTabs> {
   int? _hoveredIndex;
+  int? _focusedIndex;
 
   @override
   Widget build(BuildContext context) {
@@ -803,6 +967,8 @@ class _CaseStudyTabsState extends State<_CaseStudyTabs> {
       final targetIndex = widget.tabIndices[index];
       final isActive = targetIndex == widget.activeIndex;
       final isHovered = index == _hoveredIndex;
+      final isFocused = index == _focusedIndex;
+      final semanticsLabel = 'Open ${widget.labels[index]} screen preview';
 
       return MouseRegion(
         onEnter: (_) => setState(() => _hoveredIndex = index),
@@ -812,38 +978,57 @@ class _CaseStudyTabsState extends State<_CaseStudyTabs> {
           }
         },
         cursor: SystemMouseCursors.click,
-        child: GestureDetector(
-          onTap: () => widget.onSelected(targetIndex),
-          child: AnimatedContainer(
-            duration: Motion.fast,
-            curve: Motion.standard,
-            padding: const EdgeInsets.symmetric(vertical: AppSpace.sm),
-            decoration: BoxDecoration(
-              color: isActive
-                  ? AppColors.primary.withValues(alpha: 0.16)
-                  : isHovered
-                  ? Colors.white.withValues(alpha: 0.05)
-                  : Colors.white.withValues(alpha: 0.03),
-              borderRadius: BorderRadius.circular(AppRadius.pill),
-              border: Border.all(
-                color: isActive
-                    ? AppColors.primary.withValues(alpha: 0.24)
-                    : Colors.white.withValues(alpha: 0.06),
+        child: FocusableActionDetector(
+          onShowFocusHighlight: (focused) {
+            setState(() {
+              _focusedIndex = focused
+                  ? index
+                  : (_focusedIndex == index ? null : _focusedIndex);
+            });
+          },
+          child: Semantics(
+            button: true,
+            label: semanticsLabel,
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                onTap: () => widget.onSelected(targetIndex),
+                borderRadius: BorderRadius.circular(AppRadius.pill),
+                child: AnimatedContainer(
+                  duration: Motion.fast,
+                  curve: Motion.standard,
+                  padding: const EdgeInsets.symmetric(vertical: AppSpace.sm),
+                  decoration: BoxDecoration(
+                    color: isActive
+                        ? AppColors.primary.withValues(alpha: 0.16)
+                        : isHovered || isFocused
+                        ? Colors.white.withValues(alpha: 0.05)
+                        : Colors.white.withValues(alpha: 0.03),
+                    borderRadius: BorderRadius.circular(AppRadius.pill),
+                    border: Border.all(
+                      color: isActive
+                          ? AppColors.primary.withValues(alpha: 0.24)
+                          : isFocused
+                          ? AppColors.primary.withValues(alpha: 0.24)
+                          : Colors.white.withValues(alpha: 0.06),
+                    ),
+                    boxShadow: isActive
+                        ? [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.14),
+                              blurRadius: 18,
+                              spreadRadius: 1,
+                            ),
+                          ]
+                        : const [],
+                  ),
+                  child: Icon(
+                    widget.icons[index],
+                    size: 18,
+                    color: isActive ? AppColors.text : AppColors.secondaryText,
+                  ),
+                ),
               ),
-              boxShadow: isActive
-                  ? [
-                      BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.14),
-                        blurRadius: 18,
-                        spreadRadius: 1,
-                      ),
-                    ]
-                  : const [],
-            ),
-            child: Icon(
-              widget.icons[index],
-              size: 18,
-              color: isActive ? AppColors.text : AppColors.secondaryText,
             ),
           ),
         ),
@@ -878,6 +1063,177 @@ class _CaseStudyScreen {
 
   String imagePath(bool isLightMode) {
     return isLightMode ? lightAssetPath : darkAssetPath;
+  }
+}
+
+class _CaseStudyAction {
+  const _CaseStudyAction({
+    required this.label,
+    required this.icon,
+    required this.url,
+    this.primary = false,
+  });
+
+  final String label;
+  final IconData icon;
+  final String url;
+  final bool primary;
+}
+
+class _ActionButton extends StatelessWidget {
+  const _ActionButton({required this.action, required this.onTap});
+
+  final _CaseStudyAction action;
+  final VoidCallback onTap;
+
+  @override
+  Widget build(BuildContext context) {
+    final foreground = action.primary ? Colors.white : AppColors.text;
+    final background = action.primary
+        ? AppColors.lime
+        : Colors.white.withValues(alpha: 0.06);
+
+    return Semantics(
+      button: true,
+      label: action.label,
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(AppRadius.pill),
+        child: Ink(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSpace.md,
+            vertical: AppSpace.sm,
+          ),
+          decoration: BoxDecoration(
+            color: background,
+            borderRadius: BorderRadius.circular(AppRadius.pill),
+            border: Border.all(
+              color: action.primary
+                  ? Colors.transparent
+                  : Colors.white.withValues(alpha: 0.12),
+            ),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Icon(action.icon, size: 16, color: foreground),
+              const SizedBox(width: AppSpace.xs),
+              Text(
+                action.label,
+                style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                  color: foreground,
+                  fontWeight: FontWeight.w700,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _KpiChip extends StatelessWidget {
+  const _KpiChip({required this.label});
+
+  final String label;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.symmetric(
+        horizontal: AppSpace.sm,
+        vertical: AppSpace.xs,
+      ),
+      decoration: BoxDecoration(
+        color: AppColors.primary.withValues(alpha: 0.14),
+        borderRadius: BorderRadius.circular(AppRadius.pill),
+        border: Border.all(color: AppColors.primary.withValues(alpha: 0.28)),
+      ),
+      child: Text(
+        label,
+        style: Theme.of(context).textTheme.labelMedium?.copyWith(
+          color: AppColors.text,
+          fontWeight: FontWeight.w700,
+        ),
+      ),
+    );
+  }
+}
+
+class _OptimizedCaseStudyImage extends StatelessWidget {
+  const _OptimizedCaseStudyImage({
+    required this.assetPath,
+    required this.semanticLabel,
+  });
+
+  final String assetPath;
+  final String semanticLabel;
+
+  @override
+  Widget build(BuildContext context) {
+    final avifPath = _replaceExtension(assetPath, 'avif');
+    final webpPath = _replaceExtension(assetPath, 'webp');
+
+    Widget buildAsset(String path, {Widget Function()? onError}) {
+      return Image.asset(
+        path,
+        fit: BoxFit.cover,
+        alignment: Alignment.topCenter,
+        cacheWidth: 720,
+        filterQuality: FilterQuality.low,
+        gaplessPlayback: true,
+        semanticLabel: semanticLabel,
+        errorBuilder: (_, __, ___) {
+          if (onError != null) return onError();
+          return const Center(
+            child: Text(
+              'Screenshot unavailable',
+              style: TextStyle(color: AppColors.secondaryText),
+            ),
+          );
+        },
+      );
+    }
+
+    // Prefer compressed formats when available, then gracefully fallback.
+    return buildAsset(
+      avifPath,
+      onError: () => buildAsset(webpPath, onError: () => buildAsset(assetPath)),
+    );
+  }
+
+  String _replaceExtension(String path, String extension) {
+    final dotIndex = path.lastIndexOf('.');
+    if (dotIndex <= 0 || dotIndex == path.length - 1) return path;
+    return '${path.substring(0, dotIndex)}.$extension';
+  }
+}
+
+class _StaggeredReveal extends StatelessWidget {
+  const _StaggeredReveal({required this.index, required this.child});
+
+  final int index;
+  final Widget child;
+
+  @override
+  Widget build(BuildContext context) {
+    final duration = Duration(milliseconds: 240 + (index * 80));
+    return TweenAnimationBuilder<double>(
+      tween: Tween<double>(begin: 0, end: 1),
+      duration: duration,
+      curve: Curves.easeOutCubic,
+      child: child,
+      builder: (context, value, animatedChild) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(0, 6 * (1 - value)),
+            child: animatedChild,
+          ),
+        );
+      },
+    );
   }
 }
 
@@ -935,38 +1291,46 @@ class _ModeButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: AnimatedContainer(
-        duration: Motion.fast,
-        curve: Motion.standard,
-        padding: const EdgeInsets.symmetric(
-          horizontal: AppSpace.md,
-          vertical: AppSpace.xs,
-        ),
-        decoration: BoxDecoration(
+    return Semantics(
+      button: true,
+      label: '$label mode',
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: onTap,
           borderRadius: BorderRadius.circular(AppRadius.pill),
-          color: isActive
-              ? AppColors.primary.withValues(alpha: 0.18)
-              : Colors.transparent,
-        ),
-        child: Row(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Icon(
-              icon,
-              size: 16,
-              color: isActive ? AppColors.text : AppColors.secondaryText,
+          child: AnimatedContainer(
+            duration: Motion.fast,
+            curve: Motion.standard,
+            padding: const EdgeInsets.symmetric(
+              horizontal: AppSpace.md,
+              vertical: AppSpace.xs,
             ),
-            const SizedBox(width: AppSpace.xs),
-            Text(
-              label,
-              style: Theme.of(context).textTheme.labelMedium?.copyWith(
-                color: isActive ? AppColors.text : AppColors.secondaryText,
-                fontWeight: FontWeight.w600,
-              ),
+            decoration: BoxDecoration(
+              borderRadius: BorderRadius.circular(AppRadius.pill),
+              color: isActive
+                  ? AppColors.primary.withValues(alpha: 0.18)
+                  : Colors.transparent,
             ),
-          ],
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Icon(
+                  icon,
+                  size: 16,
+                  color: isActive ? AppColors.text : AppColors.secondaryText,
+                ),
+                const SizedBox(width: AppSpace.xs),
+                Text(
+                  label,
+                  style: Theme.of(context).textTheme.labelMedium?.copyWith(
+                    color: isActive ? AppColors.text : AppColors.secondaryText,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );

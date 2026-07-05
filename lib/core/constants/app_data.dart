@@ -41,10 +41,27 @@ abstract final class AppData {
 
   static const github = 'https://github.com/omarxioa';
 
+  static const myMedRepoUrl = 'https://github.com/omarxioa/myMed';
+
+  static const salatiRepoUrl = 'https://github.com/omarxioa/taweem_salati';
+
   static const linkedin = 'https://www.linkedin.com/in/omar-xioa/';
 
+  // WhatsApp requires an international number in digits-only format.
+  static const whatsAppNumber = '201140222004';
+
+  static const whatsAppMessage =
+      'Hi%20Omar%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20talk%20about%20a%20project.';
+
   static const whatsAppUrl =
-      'https://wa.me/?text=Hi%20Omar%2C%20I%20saw%20your%20portfolio%20and%20want%20to%20talk%20about%20a%20project.';
+      'https://wa.me/$whatsAppNumber?text=$whatsAppMessage';
+
+  static String whatsAppInquiryUrl(String projectName) {
+    final message = Uri.encodeComponent(
+      'Hi Omar, I saw your portfolio and would like to discuss $projectName.',
+    );
+    return 'https://wa.me/$whatsAppNumber?text=$message';
+  }
 
   static const about =
       'Senior Flutter Developer with 5+ years of experience building scalable mobile applications. Founder of SOAcode and experienced in leading development teams, architecting enterprise solutions, and delivering production-ready applications for startups and businesses.';
