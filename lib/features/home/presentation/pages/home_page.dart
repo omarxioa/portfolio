@@ -1,5 +1,4 @@
-import 'dart:convert';
-
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -96,21 +95,16 @@ class _HomePageState extends State<HomePage> {
   Future<void> _downloadCvFromAssets() async {
     const assetPath = AppData.cvAssetPath;
 
-    bool exists = false;
     try {
-      final manifestRaw = await rootBundle.loadString('AssetManifest.json');
-      final manifest = jsonDecode(manifestRaw) as Map<String, dynamic>;
-      exists = manifest.containsKey(assetPath);
+      await rootBundle.load(assetPath);
     } catch (_) {
-      exists = false;
-    }
-
-    if (!exists) {
       _notify('CV file not found. Add it at $assetPath');
       return;
     }
 
-    final uri = Uri.parse('/$assetPath');
+    final uri = kIsWeb
+        ? Uri.parse('assets/$assetPath')
+        : Uri.parse('/$assetPath');
     final launched = await launchUrl(uri, mode: LaunchMode.platformDefault);
     if (!launched) {
       _notify('Unable to open CV asset.');
@@ -406,10 +400,9 @@ class _TopNavBar extends StatelessWidget {
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.lime,
                 foregroundColor: Colors.black,
-                minimumSize: const Size(0, 44),
                 padding: const EdgeInsets.symmetric(
-                  horizontal: AppSpace.lg,
-                  vertical: AppSpace.md,
+                  horizontal: AppSpace.md,
+                  vertical: AppSpace.sm,
                 ),
               ),
               child: const Text('Resume'),
@@ -481,10 +474,9 @@ class _TopNavBar extends StatelessWidget {
             style: FilledButton.styleFrom(
               backgroundColor: AppColors.lime,
               foregroundColor: Colors.black,
-              minimumSize: const Size(0, 44),
               padding: const EdgeInsets.symmetric(
-                horizontal: AppSpace.lg,
-                vertical: AppSpace.md,
+                horizontal: AppSpace.md,
+                vertical: AppSpace.sm,
               ),
             ),
             child: const Text('Resume'),

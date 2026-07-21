@@ -29,7 +29,7 @@ class ProductModel {
 abstract final class AppData {
   static const name = 'Omar Abdelnaby';
   static const heroImageAsset = 'assets/images/avatar.png';
-  static const cvAssetPath = 'assets/cv/omar_abdelnaby_cv.pdf';
+  static const cvAssetPath = 'assets/cv/Omar-cv.pdf';
 
   static const title = 'Mobile Software Engineer';
 

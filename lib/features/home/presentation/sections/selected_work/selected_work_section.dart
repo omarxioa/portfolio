@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../../core/constants/app_data.dart';
@@ -1167,6 +1168,11 @@ class _OptimizedCaseStudyImage extends StatelessWidget {
     required this.semanticLabel,
   });
 
+  static final Future<Set<String>> _assetSetFuture =
+      AssetManifest.loadFromAssetBundle(
+        rootBundle,
+      ).then((manifest) => manifest.listAssets().toSet());
+
   final String assetPath;
   final String semanticLabel;
 
@@ -1175,7 +1181,7 @@ class _OptimizedCaseStudyImage extends StatelessWidget {
     final avifPath = _replaceExtension(assetPath, 'avif');
     final webpPath = _replaceExtension(assetPath, 'webp');
 
-    Widget buildAsset(String path, {Widget Function()? onError}) {
+    Widget buildAsset(String path) {
       return Image.asset(
         path,
         fit: BoxFit.cover,
@@ -1184,23 +1190,40 @@ class _OptimizedCaseStudyImage extends StatelessWidget {
         filterQuality: FilterQuality.low,
         gaplessPlayback: true,
         semanticLabel: semanticLabel,
-        errorBuilder: (_, __, ___) {
-          if (onError != null) return onError();
-          return const Center(
-            child: Text(
-              'Screenshot unavailable',
-              style: TextStyle(color: AppColors.secondaryText),
-            ),
-          );
-        },
+        errorBuilder: (_, __, ___) => const Center(
+          child: Text(
+            'Screenshot unavailable',
+            style: TextStyle(color: AppColors.secondaryText),
+          ),
+        ),
       );
     }
 
-    // Prefer compressed formats when available, then gracefully fallback.
-    return buildAsset(
-      avifPath,
-      onError: () => buildAsset(webpPath, onError: () => buildAsset(assetPath)),
+    return FutureBuilder<Set<String>>(
+      future: _assetSetFuture,
+      builder: (context, snapshot) {
+        final assets = snapshot.data;
+        final selectedPath = _bestAvailablePath(
+          assets: assets,
+          avifPath: avifPath,
+          webpPath: webpPath,
+          fallbackPath: assetPath,
+        );
+        return buildAsset(selectedPath);
+      },
     );
+  }
+
+  String _bestAvailablePath({
+    required Set<String>? assets,
+    required String avifPath,
+    required String webpPath,
+    required String fallbackPath,
+  }) {
+    if (assets == null) return fallbackPath;
+    if (assets.contains(avifPath)) return avifPath;
+    if (assets.contains(webpPath)) return webpPath;
+    return fallbackPath;
   }
 
   String _replaceExtension(String path, String extension) {
