@@ -114,7 +114,7 @@ class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
       duration: const Duration(milliseconds: 900),
     )..repeat(reverse: true);
 
-    _typingTimer = Timer.periodic(const Duration(milliseconds: 80), _onTick);
+    _typingTimer = Timer.periodic(const Duration(milliseconds: 70), _onTick);
   }
 
   @override
