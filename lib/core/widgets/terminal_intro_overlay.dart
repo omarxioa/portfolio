@@ -176,6 +176,16 @@ class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
     final textTheme = Theme.of(context).textTheme;
     final palette = _palette;
     final isClassic = widget.style == TerminalIntroStyle.classicCmd;
+    final width = MediaQuery.sizeOf(context).width;
+    // The script lines are long; shrink the type on narrow phones so they wrap
+    // less and the panel stays within a short viewport.
+    final terminalFontSize = palette.fullscreen
+        ? width < 360
+              ? 12.0
+              : width < 480
+              ? 13.5
+              : 16.0
+        : null;
     final terminalLetterSpacing = isClassic ? -0.35 : -0.1;
     final terminalFontFamily = isClassic ? 'Courier New' : 'monospace';
     final terminalFontFallback = isClassic
@@ -218,63 +228,49 @@ class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
                     ),
                     border: Border.all(color: palette.border),
                   ),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      if (!palette.fullscreen)
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10,
-                            vertical: 7,
-                          ),
-                          decoration: BoxDecoration(
-                            color: palette.titleBar,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: Row(
-                            children: [
-                              if (palette.showWindowDots) ...[
-                                _Dot(color: Colors.red.shade400),
-                                const SizedBox(width: 6),
-                                _Dot(color: Colors.amber.shade400),
-                                const SizedBox(width: 6),
-                                _Dot(color: Colors.green.shade400),
-                              ],
-                              if (palette.showWindowDots) const Spacer(),
-                              Text(
-                                palette.title,
-                                style: textTheme.labelMedium?.copyWith(
-                                  color: palette.titleBarText,
+                  // Scrollable so a tall script can never overflow a short
+                  // viewport (e.g. 320x568); it shrink-wraps when it fits.
+                  child: SingleChildScrollView(
+                    physics: const ClampingScrollPhysics(),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        if (!palette.fullscreen)
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10,
+                              vertical: 7,
+                            ),
+                            decoration: BoxDecoration(
+                              color: palette.titleBar,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                            child: Row(
+                              children: [
+                                if (palette.showWindowDots) ...[
+                                  _Dot(color: Colors.red.shade400),
+                                  const SizedBox(width: 6),
+                                  _Dot(color: Colors.amber.shade400),
+                                  const SizedBox(width: 6),
+                                  _Dot(color: Colors.green.shade400),
+                                ],
+                                if (palette.showWindowDots) const Spacer(),
+                                Text(
+                                  palette.title,
+                                  style: textTheme.labelMedium?.copyWith(
+                                    color: palette.titleBarText,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      if (!palette.fullscreen) const SizedBox(height: 14),
-                      for (final line in _completedLines)
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child: Text(
-                            line,
-                            style: textTheme.bodyMedium?.copyWith(
-                              color: palette.text,
-                              fontFamily: terminalFontFamily,
-                              fontFamilyFallback: terminalFontFallback,
-                              fontWeight: isClassic
-                                  ? FontWeight.w600
-                                  : FontWeight.w400,
-                              letterSpacing: terminalLetterSpacing,
-                              fontSize: palette.fullscreen ? 16 : null,
-                              height: 1.35,
+                              ],
                             ),
                           ),
-                        ),
-                      AnimatedBuilder(
-                        animation: _blinkController,
-                        builder: (context, _) {
-                          return RichText(
-                            text: TextSpan(
+                        if (!palette.fullscreen) const SizedBox(height: 14),
+                        for (final line in _completedLines)
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 5),
+                            child: Text(
+                              line,
                               style: textTheme.bodyMedium?.copyWith(
                                 color: palette.text,
                                 fontFamily: terminalFontFamily,
@@ -283,51 +279,73 @@ class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
                                     ? FontWeight.w600
                                     : FontWeight.w400,
                                 letterSpacing: terminalLetterSpacing,
-                                fontSize: palette.fullscreen ? 16 : null,
+                                fontSize: terminalFontSize,
                                 height: 1.35,
                               ),
-                              children: [
-                                TextSpan(text: _currentLine),
-                                WidgetSpan(
-                                  alignment: PlaceholderAlignment.baseline,
-                                  baseline: TextBaseline.alphabetic,
-                                  child: Transform.translate(
-                                    offset: Offset(
-                                      widget.style ==
-                                                  TerminalIntroStyle
-                                                      .classicCmd &&
-                                              _isTypingChars
-                                          ? (_blinkController.value - 0.5) * 1.2
-                                          : 0,
-                                      0,
-                                    ),
-                                    child: Container(
-                                      width: isClassic ? 2.0 : 1.8,
-                                      height:
-                                          (palette.fullscreen ? 16 : 15) * 1.15,
-                                      color: palette.cursor.withValues(
-                                        alpha:
-                                            widget.style ==
-                                                TerminalIntroStyle.classicCmd
-                                            ? (_isTypingChars
-                                                  ? 0.76 +
-                                                        _blinkController.value *
-                                                            0.24
-                                                  : 0.2 +
-                                                        _blinkController.value *
-                                                            0.8)
-                                            : 0.45 +
-                                                  _blinkController.value * 0.55,
+                            ),
+                          ),
+                        AnimatedBuilder(
+                          animation: _blinkController,
+                          builder: (context, _) {
+                            return RichText(
+                              text: TextSpan(
+                                style: textTheme.bodyMedium?.copyWith(
+                                  color: palette.text,
+                                  fontFamily: terminalFontFamily,
+                                  fontFamilyFallback: terminalFontFallback,
+                                  fontWeight: isClassic
+                                      ? FontWeight.w600
+                                      : FontWeight.w400,
+                                  letterSpacing: terminalLetterSpacing,
+                                  fontSize: terminalFontSize,
+                                  height: 1.35,
+                                ),
+                                children: [
+                                  TextSpan(text: _currentLine),
+                                  WidgetSpan(
+                                    alignment: PlaceholderAlignment.baseline,
+                                    baseline: TextBaseline.alphabetic,
+                                    child: Transform.translate(
+                                      offset: Offset(
+                                        widget.style ==
+                                                    TerminalIntroStyle
+                                                        .classicCmd &&
+                                                _isTypingChars
+                                            ? (_blinkController.value - 0.5) *
+                                                  1.2
+                                            : 0,
+                                        0,
+                                      ),
+                                      child: Container(
+                                        width: isClassic ? 2.0 : 1.8,
+                                        height: (terminalFontSize ?? 15) * 1.15,
+                                        color: palette.cursor.withValues(
+                                          alpha:
+                                              widget.style ==
+                                                  TerminalIntroStyle.classicCmd
+                                              ? (_isTypingChars
+                                                    ? 0.76 +
+                                                          _blinkController
+                                                                  .value *
+                                                              0.24
+                                                    : 0.2 +
+                                                          _blinkController
+                                                                  .value *
+                                                              0.8)
+                                              : 0.45 +
+                                                    _blinkController.value *
+                                                        0.55,
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ),
-                    ],
+                                ],
+                              ),
+                            );
+                          },
+                        ),
+                      ],
+                    ),
                   ),
                 ),
               ),

@@ -57,6 +57,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void _notify(String message) {
+    if (!mounted) return;
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(content: Text(message), behavior: SnackBarBehavior.floating),
     );
@@ -102,19 +103,33 @@ class _HomePageState extends State<HomePage> {
       return;
     }
 
+    // On web the bundle is served under the document's base href, so resolve
+    // against it rather than assuming the app sits at the domain root. Off web
+    // a bundled asset has no launchable URL at all, so use the hosted copy.
     final uri = kIsWeb
-        ? Uri.parse('assets/$assetPath')
-        : Uri.parse('/$assetPath');
-    final launched = await launchUrl(uri, mode: LaunchMode.platformDefault);
-    if (!launched) {
-      _notify('Unable to open CV asset.');
-    }
+        ? Uri.base.resolve('assets/$assetPath')
+        : Uri.parse(AppData.hostedCvUrl);
+
+    await _launch(uri, 'Unable to open CV.');
   }
 
   Future<void> _openExternalLink(String url, String errorMessage) async {
-    final uri = Uri.parse(url);
-    final launched = await launchUrl(uri, mode: LaunchMode.platformDefault);
-    if (!launched) {
+    await _launch(Uri.parse(url), errorMessage);
+  }
+
+  Future<void> _launch(Uri uri, String errorMessage) async {
+    try {
+      final launched = await launchUrl(
+        uri,
+        mode: LaunchMode.platformDefault,
+        webOnlyWindowName: '_blank',
+      );
+      if (!launched) {
+        _notify(errorMessage);
+      }
+    } catch (_) {
+      // launchUrl throws (not just returns false) when no handler is
+      // registered for the scheme, e.g. no mail/WhatsApp client installed.
       _notify(errorMessage);
     }
   }

@@ -32,29 +32,29 @@ class SelectedWorkSection extends ConsumerWidget {
     _CaseStudyScreen(
       title: 'Today',
       subtitle: 'Daily plan, reminders, and caregiver support at a glance.',
-      darkAssetPath: 'assets/images/today.png',
-      lightAssetPath: 'assets/images/today_light.png',
+      darkAssetPath: 'assets/images/today.webp',
+      lightAssetPath: 'assets/images/today_light.webp',
       navIcon: Icons.home_rounded,
     ),
     _CaseStudyScreen(
       title: 'Progress',
       subtitle: 'Weekly consistency, streaks, and missed-dose recovery.',
-      darkAssetPath: 'assets/images/progress.png',
-      lightAssetPath: 'assets/images/progress_light.png',
+      darkAssetPath: 'assets/images/progress.webp',
+      lightAssetPath: 'assets/images/progress_light.webp',
       navIcon: Icons.bar_chart_rounded,
     ),
     _CaseStudyScreen(
       title: 'Treatment',
       subtitle: 'Medication timelines, instructions, and refill tracking.',
-      darkAssetPath: 'assets/images/treatment.png',
-      lightAssetPath: 'assets/images/treatment_light.png',
+      darkAssetPath: 'assets/images/treatment.webp',
+      lightAssetPath: 'assets/images/treatment_light.webp',
       navIcon: Icons.medication_rounded,
     ),
     _CaseStudyScreen(
       title: 'Support',
       subtitle: 'Caregiver activity, check-ins, and shared accountability.',
-      darkAssetPath: 'assets/images/support.png',
-      lightAssetPath: 'assets/images/support_light.png',
+      darkAssetPath: 'assets/images/support.webp',
+      lightAssetPath: 'assets/images/support_light.webp',
       navIcon: Icons.support_agent_rounded,
     ),
   ];
@@ -64,29 +64,29 @@ class SelectedWorkSection extends ConsumerWidget {
       title: 'Home',
       subtitle:
           'Prayer overview, next prayer countdown, and reliable reminders.',
-      darkAssetPath: 'assets/images/salati_home_dark.png',
-      lightAssetPath: 'assets/images/salati_home_light.png',
+      darkAssetPath: 'assets/images/salati_home_dark.webp',
+      lightAssetPath: 'assets/images/salati_home_light.webp',
       navIcon: Icons.home_rounded,
     ),
     _CaseStudyScreen(
       title: 'Qibla',
       subtitle: 'Compass guidance designed for stable everyday use.',
-      darkAssetPath: 'assets/images/salati_compass_dark.png',
-      lightAssetPath: 'assets/images/salati_compass_light.png',
+      darkAssetPath: 'assets/images/salati_compass_dark.webp',
+      lightAssetPath: 'assets/images/salati_compass_light.webp',
       navIcon: Icons.explore_rounded,
     ),
     _CaseStudyScreen(
       title: 'Quran',
       subtitle: 'Quick surah access with calm reading-focused navigation.',
-      darkAssetPath: "assets/images/salati_qura'n.png",
-      lightAssetPath: "assets/images/salati_qura'n_light.png",
+      darkAssetPath: "assets/images/salati_qura'n.webp",
+      lightAssetPath: "assets/images/salati_qura'n_light.webp",
       navIcon: Icons.menu_book_rounded,
     ),
     _CaseStudyScreen(
       title: 'Settings',
       subtitle: 'Language, notifications, and prayer preferences in one place.',
-      darkAssetPath: 'assets/images/salati_setting_dark.png',
-      lightAssetPath: 'assets/images/salati_setting_light.png',
+      darkAssetPath: 'assets/images/salati_setting_dark.webp',
+      lightAssetPath: 'assets/images/salati_setting_light.webp',
       navIcon: Icons.settings_rounded,
     ),
   ];
@@ -404,8 +404,18 @@ class _SelectedWorkCardState extends State<_SelectedWorkCard> {
   bool _hovered = false;
 
   Future<void> _openActionUrl(String url) async {
-    final uri = Uri.parse(url);
-    final launched = await launchUrl(uri, mode: LaunchMode.platformDefault);
+    var launched = false;
+    try {
+      launched = await launchUrl(
+        Uri.parse(url),
+        mode: LaunchMode.platformDefault,
+        webOnlyWindowName: '_blank',
+      );
+    } catch (_) {
+      // launchUrl throws rather than returning false when the platform has no
+      // handler registered for the scheme.
+      launched = false;
+    }
     if (!launched && mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -1089,7 +1099,9 @@ class _ActionButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final foreground = action.primary ? Colors.white : AppColors.text;
+    // Lime is a very light surface: only near-black foreground clears WCAG AA
+    // on it (white would land at ~1.2:1).
+    final foreground = action.primary ? Colors.black : AppColors.text;
     final background = action.primary
         ? AppColors.lime
         : Colors.white.withValues(alpha: 0.06);
@@ -1119,11 +1131,15 @@ class _ActionButton extends StatelessWidget {
             children: [
               Icon(action.icon, size: 16, color: foreground),
               const SizedBox(width: AppSpace.xs),
-              Text(
-                action.label,
-                style: Theme.of(context).textTheme.labelLarge?.copyWith(
-                  color: foreground,
-                  fontWeight: FontWeight.w700,
+              // Flexible so a long label wraps instead of overflowing the
+              // Wrap's max width on narrow phones and tablet split columns.
+              Flexible(
+                child: Text(
+                  action.label,
+                  style: Theme.of(context).textTheme.labelLarge?.copyWith(
+                    color: foreground,
+                    fontWeight: FontWeight.w700,
+                  ),
                 ),
               ),
             ],

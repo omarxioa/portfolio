@@ -1,5 +1,3 @@
-import '../../data/models/project_model.dart';
-
 class ExperienceModel {
   final String company;
   final String role;
@@ -28,16 +26,19 @@ class ProductModel {
 
 abstract final class AppData {
   static const name = 'Omar Abdelnaby';
-  static const heroImageAsset = 'assets/images/avatar.png';
   static const cvAssetPath = 'assets/cv/Omar-cv.pdf';
+
+  static const siteUrl = 'https://omarabdelnaby.dev';
+
+  // Off web there is no launchable URL for a bundled asset, so the hosted copy
+  // of the same file is used instead. Kept in sync with cvAssetPath.
+  static const hostedCvUrl = '$siteUrl/assets/$cvAssetPath';
 
   static const title = 'Mobile Software Engineer';
 
   static const heroLead = 'Hello. I\'m';
 
   static const heroName = 'Omar.';
-
-  static const email = 'your@email.com';
 
   static const github = 'https://github.com/omarxioa';
 
@@ -112,31 +113,6 @@ abstract final class AppData {
       company: 'Syntax',
       role: 'DevOps Engineer',
       duration: '2019 - 2021',
-    ),
-  ];
-
-  static const projects = [
-    ProjectModel(
-      title: 'Medication Management Platform',
-      description:
-          'A reliable patient-focused app with reminders and tracking.',
-      image: 'assets/images/medication_platform.png',
-      githubUrl: github,
-      technologies: ['Riverpod', 'Clean Architecture', 'Notifications'],
-    ),
-    ProjectModel(
-      title: 'Enterprise Mobile Solutions',
-      description: 'Delivered scalable apps for multiple businesses and teams.',
-      image: 'assets/images/enterprise_solutions.png',
-      githubUrl: github,
-      technologies: ['20+ Client Applications', 'Architecture', 'CI/CD'],
-    ),
-    ProjectModel(
-      title: 'Flutter Architecture Template',
-      description: 'Opinionated template for production-ready Flutter apps.',
-      image: 'assets/images/flutter_template.png',
-      githubUrl: github,
-      technologies: ['Open Source', 'Modular', 'Best Practices'],
     ),
   ];
 
