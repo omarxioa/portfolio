@@ -4,7 +4,9 @@ import 'core/router/app_router.dart';
 import 'core/theme/app_theme.dart';
 
 class PortfolioApp extends StatelessWidget {
-  const PortfolioApp({super.key});
+  const PortfolioApp({super.key, this.showIntro = true});
+
+  final bool showIntro;
 
   @override
   Widget build(BuildContext context) {
@@ -13,7 +15,8 @@ class PortfolioApp extends StatelessWidget {
       title: 'Omar - Mobile Software Engineer',
       theme: AppTheme.dark,
       initialRoute: '/',
-      onGenerateRoute: AppRouter.onGenerateRoute,
+      onGenerateRoute: (settings) =>
+          AppRouter.onGenerateRoute(settings, showIntro: showIntro),
     );
   }
 }

@@ -1,31 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../constants/app_colors.dart';
 import 'tokens/app_radius.dart';
 import 'tokens/motion.dart';
 
 abstract final class AppTheme {
+  /// Headings and UI text.
+  static const displayFamily = 'Space Grotesk';
+
+  /// Running prose, which wants the taller x-height.
+  static const bodyFamily = 'Manrope';
+
   static ThemeData get dark {
     final base = ThemeData.dark(useMaterial3: true);
 
     return base.copyWith(
       scaffoldBackgroundColor: AppColors.background,
       colorScheme: const ColorScheme.dark(
+        // primary is the structural accent; lime is reserved for actions.
         primary: AppColors.primary,
-        secondary: AppColors.primarySoft,
+        secondary: AppColors.lime,
         surface: AppColors.surface,
         onPrimary: AppColors.background,
         onSurface: AppColors.text,
       ),
-      textTheme: GoogleFonts.spaceGroteskTextTheme(base.textTheme)
+      textTheme: base.textTheme
+          .apply(fontFamily: displayFamily)
           .copyWith(
-            bodyLarge: GoogleFonts.manrope(
+            bodyLarge: const TextStyle(
+              fontFamily: bodyFamily,
               fontSize: 18,
               color: AppColors.text,
               height: 1.55,
             ),
-            bodyMedium: GoogleFonts.manrope(
+            bodyMedium: const TextStyle(
+              fontFamily: bodyFamily,
               fontSize: 16,
               color: AppColors.text,
               height: 1.55,

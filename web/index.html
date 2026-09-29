@@ -1,113 +1,179 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
   <!--
     If you are serving your web app in a path other than the root, change the
     href value below to reflect the base path you are serving from.
-
-    The path provided below has to start and end with a slash "/" in order for
-    it to work correctly.
-
-    For more details:
-    * https://developer.mozilla.org/en-US/docs/Web/HTML/Element/base
-
-    This is a placeholder for base href that will be replaced by the value of
-    the `--base-href` argument provided to `flutter build`.
+    Replaced by the value of the `--base-href` argument to `flutter build`.
   -->
   <base href="$FLUTTER_BASE_HREF">
 
   <meta charset="UTF-8">
-  <meta content="IE=Edge" http-equiv="X-UA-Compatible">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
   <meta name="theme-color" content="#080808">
+  <meta name="color-scheme" content="dark">
 
   <!-- iOS meta tags & icons -->
   <meta name="mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Omar Abdelnaby | Flutter Developer">
+  <meta name="apple-mobile-web-app-title" content="Omar Abdelnaby | Mobile Software Engineer">
   <link rel="apple-touch-icon" href="icons/Icon-192.png">
 
-  <!-- Favicon -->
   <link rel="icon" type="image/png" href="favicon.png"/>
 
   <title>Omar Abdelnaby | Mobile Software Engineer</title>
 
-  <meta
-  name="description"
-  content="Mobile Software Engineer specialized in building high-performance mobile applications with Flutter."
-/>
-
-<meta
-  name="keywords"
-  content="Flutter, Flutter Developer, Mobile Developer, Android, iOS, Dart, Web, Omar Abdelnaby, Mobile Software Engineer"
-/>
-
-<meta name="author" content="Omar Abdelnaby"/>
-
-<meta name="robots" content="index, follow"/>
+  <meta name="description"
+    content="Mobile Software Engineer with five years building Flutter applications. Offline-first mobile products for healthcare and enterprise teams, from architecture through release.">
+  <meta name="keywords"
+    content="Flutter, Flutter Developer, Mobile Developer, Android, iOS, Dart, Riverpod, Clean Architecture, Omar Abdelnaby, Mobile Software Engineer">
+  <meta name="author" content="Omar Abdelnaby"/>
+  <meta name="robots" content="index, follow"/>
+  <link rel="canonical" href="https://omarabdelnaby.dev/" />
   <link rel="manifest" href="manifest.json">
 
+  <meta property="og:type" content="website"/>
+  <meta property="og:site_name" content="Omar Abdelnaby"/>
+  <meta property="og:locale" content="en_US"/>
+  <meta property="og:title" content="Omar Abdelnaby | Mobile Software Engineer" />
+  <meta property="og:description"
+    content="Mobile Software Engineer building offline-first Flutter products for healthcare and enterprise teams."/>
+  <meta property="og:url" content="https://omarabdelnaby.dev/"/>
+  <meta property="og:image" content="https://omarabdelnaby.dev/og-image.jpg"/>
+  <meta property="og:image:type" content="image/jpeg"/>
+  <meta property="og:image:width" content="1200"/>
+  <meta property="og:image:height" content="630"/>
+  <meta property="og:image:alt" content="Omar Abdelnaby, Mobile Software Engineer"/>
 
-<meta property="og:type" content="website"/>
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Omar Abdelnaby | Mobile Software Engineer">
+  <meta name="twitter:description"
+    content="Mobile Software Engineer building offline-first Flutter products for healthcare and enterprise teams.">
+  <meta name="twitter:image" content="https://omarabdelnaby.dev/og-image.jpg">
+  <meta name="twitter:image:alt" content="Omar Abdelnaby, Mobile Software Engineer">
 
-<meta property="og:title" content="Omar Abdelnaby" />
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Person",
+    "name": "Omar Abdelnaby",
+    "jobTitle": "Mobile Software Engineer",
+    "url": "https://omarabdelnaby.dev/",
+    "image": "https://omarabdelnaby.dev/og-image.jpg",
+    "email": "mailto:omarxioa@gmail.com",
+    "sameAs": [
+      "https://github.com/omarxioa",
+      "https://www.linkedin.com/in/omar-xioa/"
+    ],
+    "worksFor": {
+      "@type": "Organization",
+      "name": "SOAcode"
+    },
+    "knowsAbout": [
+      "Flutter",
+      "Dart",
+      "Riverpod",
+      "Clean Architecture",
+      "Mobile Architecture",
+      "Offline-first Applications",
+      "CI/CD"
+    ]
+  }
+  </script>
 
-<meta
-property="og:description"
-content="Mobile Software Engineer building high-performance apps with Flutter."
-/>
-
-<link rel="canonical" href="https://omarabdelnaby.dev/" />
-
-<meta
-property="og:image"
-content="https://omarabdelnaby.dev/og-image.png"
-/>
-
-<meta
-property="og:url"
-content="https://omarabdelnaby.dev"
-/>
-
-<meta name="twitter:card" content="summary_large_image">
-
-<meta
-      name="twitter:title"
-      content="Omar Abdelnaby | Mobile Software Engineer">
-
-<meta
-      name="twitter:description"
-      content="Mobile Software Engineer building high-performance apps with Flutter.">
-
-<meta
-      name="twitter:image"
-      content="https://omarabdelnaby.dev/og-image.png">
-
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "Person",
-  "name": "Omar Abdelnaby",
-  "jobTitle": "Mobile Software Engineer",
-  "url": "https://omarabdelnaby.dev/",
-  "sameAs": [
-    "https://github.com/omarxioa",
-    "https://www.linkedin.com/in/omar-xioa/"
-  ],
-  "worksFor": {
-    "@type": "Organization",
-    "name": "SOAcode"
-  },
-  "knowsAbout": [
-    "Flutter",
-    "Dart",
-    "Riverpod",
-    "Mobile Architecture",
-    "Offline-first Applications"
-  ]
-}
-</script>
+  <style>
+    html, body { margin: 0; padding: 0; background: #080808; }
+    /*
+      Shown until Flutter paints its first frame. Without it the visitor stares
+      at a white page while the engine and app bundle download.
+    */
+    #boot {
+      position: fixed;
+      inset: 0;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 14px;
+      background: #080808;
+      color: #fff;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      text-align: center;
+      padding: 24px;
+      transition: opacity .25s ease;
+    }
+    #boot[hidden] { display: none; }
+    #boot.fading { opacity: 0; }
+    #boot h1 { margin: 0; font-size: 26px; font-weight: 700; letter-spacing: -.6px; }
+    #boot p { margin: 0; font-size: 14px; color: #9AA7BA; }
+    #boot .bar {
+      width: 132px; height: 3px; border-radius: 2px;
+      background: rgba(255,255,255,.12); overflow: hidden;
+    }
+    #boot .bar i {
+      display: block; width: 40%; height: 100%; border-radius: 2px;
+      background: #BCFF00; animation: slide 1.1s ease-in-out infinite;
+    }
+    @keyframes slide {
+      0%   { transform: translateX(-100%); }
+      100% { transform: translateX(250%); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      #boot .bar i { animation: none; width: 100%; }
+    }
+  </style>
 </head>
 <body>
+  <div id="boot">
+    <h1>Omar Abdelnaby</h1>
+    <p>Mobile Software Engineer</p>
+    <div class="bar"><i></i></div>
+  </div>
+
+  <noscript>
+    <div style="max-width:720px;margin:0 auto;padding:32px 20px;color:#fff;
+                font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,Helvetica,Arial,sans-serif;
+                line-height:1.6;">
+      <h1 style="letter-spacing:-.8px;">Omar Abdelnaby — Mobile Software Engineer</h1>
+      <p>Five years building Flutter applications and seven in software. Founder of
+         SOAcode, where I lead mobile development for client and in-house products:
+         architecture, delivery, and the standards the team builds against.</p>
+      <h2>Selected work</h2>
+      <ul>
+        <li><strong>myMed</strong> — medication management with reminders, progress
+            tracking and caregiver support. Offline-first data layer; scheduled doses
+            survive app termination and reboot.
+            <a href="https://github.com/omarxioa/myMed" style="color:#BCFF00;">Source</a></li>
+        <li><strong>Salati</strong> — offline-first Islamic companion with prayer
+            reminders, Adhan playback, Quran access and Qibla guidance.
+            <a href="https://github.com/omarxioa/taweem_salati" style="color:#BCFF00;">Source</a></li>
+      </ul>
+      <h2>Stack</h2>
+      <p>Flutter, Dart, Riverpod, Clean Architecture, Firebase, REST APIs, Git,
+         CI/CD, SQLite, Hive.</p>
+      <h2>Experience</h2>
+      <ul>
+        <li><strong>SOAcode</strong> — Founder &amp; Mobile Development Team Lead, 2021–present</li>
+        <li><strong>Syntax</strong> — DevOps Engineer, 2019–2021</li>
+      </ul>
+      <h2>Contact</h2>
+      <p><a href="mailto:omarxioa@gmail.com" style="color:#BCFF00;">omarxioa@gmail.com</a> ·
+         <a href="https://www.linkedin.com/in/omar-xioa/" style="color:#BCFF00;">LinkedIn</a> ·
+         <a href="https://github.com/omarxioa" style="color:#BCFF00;">GitHub</a></p>
+      <p>This site is a Flutter web app; enable JavaScript for the full experience.</p>
+    </div>
+  </noscript>
+
+  <script>
+    // Flutter dispatches this on window once it has painted. Fade rather than
+    // cut, so the handover does not read as a flash.
+    window.addEventListener('flutter-first-frame', function () {
+      var boot = document.getElementById('boot');
+      if (!boot) return;
+      boot.classList.add('fading');
+      setTimeout(function () { boot.hidden = true; }, 260);
+    });
+  </script>
   <script src="flutter_bootstrap.js" async></script>
 </body>
 </html>

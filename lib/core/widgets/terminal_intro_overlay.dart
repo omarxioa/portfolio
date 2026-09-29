@@ -25,18 +25,6 @@ class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
     with SingleTickerProviderStateMixin {
   static const int _typedLinesFromEnd = 2;
 
-  static const List<String> _modernScript = [
-    'myphz@archlinux:~\$ pwd',
-    '/home/daniel/Documents',
-    'myphz@archlinux:~\$ cd portfolio',
-    'myphz@archlinux:~/portfolio\$ ls',
-    'analysis_options.yaml  pubspec.yaml  README.md  lib/  assets/  web/',
-    'myphz@archlinux:~/portfolio\$ flutter pub get',
-    'Resolving dependencies... done',
-    'myphz@archlinux:~/portfolio\$ flutter run -d chrome',
-    'Launching lib/main.dart on Chrome in debug mode...',
-  ];
-
   late final AnimationController _blinkController;
   Timer? _typingTimer;
   int _lineIndex = 0;
@@ -44,11 +32,9 @@ class _TerminalIntroOverlayState extends State<TerminalIntroOverlay>
   bool _finishing = false;
   bool _isTypingChars = true;
 
+  // Both styles share one script, derived from the site owner's own name. The
+  // visual styles differ only in palette and chrome.
   List<String> get _script {
-    if (widget.style == TerminalIntroStyle.modern) {
-      return _modernScript;
-    }
-
     final user = AppData.name.split(' ').first.toLowerCase();
     return [
       '$user@archlinux:\$ pwd',

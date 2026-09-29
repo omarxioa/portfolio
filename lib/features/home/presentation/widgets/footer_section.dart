@@ -11,11 +11,13 @@ import '../../../../core/widgets/primitives/app_section.dart';
 class FooterSection extends StatelessWidget {
   const FooterSection({
     super.key,
+    required this.onEmail,
     required this.onWhatsApp,
     required this.onLinkedIn,
     required this.onGithub,
   });
 
+  final VoidCallback onEmail;
   final VoidCallback onWhatsApp;
   final VoidCallback onLinkedIn;
   final VoidCallback onGithub;
@@ -27,7 +29,9 @@ class FooterSection extends StatelessWidget {
     return AppContainer(
       child: AppSection(
         title: 'Contact',
-        subtitle: 'Reach me directly on WhatsApp, LinkedIn, or GitHub.',
+        subtitle:
+            'Email is the surest way to reach me. WhatsApp, LinkedIn, and '
+            'GitHub all work too.',
         surface: true,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -36,6 +40,12 @@ class FooterSection extends StatelessWidget {
               spacing: AppSpace.md,
               runSpacing: AppSpace.md,
               children: [
+                _ContactIconButton(
+                  label: 'Email',
+                  icon: FontAwesomeIcons.solidEnvelope,
+                  onTap: onEmail,
+                  primary: true,
+                ),
                 _ContactIconButton(
                   label: 'WhatsApp',
                   icon: FontAwesomeIcons.whatsapp,
@@ -52,6 +62,13 @@ class FooterSection extends StatelessWidget {
                   onTap: onGithub,
                 ),
               ],
+            ),
+            const SizedBox(height: AppSpace.md),
+            SelectableText(
+              AppData.email,
+              style: textTheme.bodyMedium?.copyWith(
+                color: AppColors.secondaryText,
+              ),
             ),
             const SizedBox(height: AppSpace.lg),
             Text(
@@ -72,14 +89,18 @@ class _ContactIconButton extends StatelessWidget {
     required this.label,
     required this.icon,
     required this.onTap,
+    this.primary = false,
   });
 
   final String label;
   final IconData icon;
   final VoidCallback onTap;
+  final bool primary;
 
   @override
   Widget build(BuildContext context) {
+    final foreground = primary ? Colors.black : AppColors.text;
+
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -91,19 +112,25 @@ class _ContactIconButton extends StatelessWidget {
             vertical: AppSpace.md,
           ),
           decoration: BoxDecoration(
-            color: Colors.white.withValues(alpha: 0.04),
+            color: primary
+                ? AppColors.lime
+                : Colors.white.withValues(alpha: 0.04),
             borderRadius: BorderRadius.circular(AppRadius.medium),
-            border: Border.all(color: Colors.white.withValues(alpha: 0.10)),
+            border: Border.all(
+              color: primary
+                  ? AppColors.lime
+                  : Colors.white.withValues(alpha: 0.10),
+            ),
           ),
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              FaIcon(icon, size: 18, color: AppColors.text),
+              FaIcon(icon, size: 18, color: foreground),
               const SizedBox(width: AppSpace.sm),
               Text(
                 label,
                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.text,
+                  color: foreground,
                   fontWeight: FontWeight.w600,
                 ),
               ),

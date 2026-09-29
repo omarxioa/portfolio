@@ -46,6 +46,47 @@ class ExperienceItem extends StatelessWidget {
               ),
               const SizedBox(height: AppSpace.xs),
               AppTag(label: entry.duration),
+              if (entry.achievements.isNotEmpty) ...[
+                const SizedBox(height: AppSpace.md),
+                ...entry.achievements.map(
+                  (achievement) => Padding(
+                    padding: const EdgeInsets.only(bottom: AppSpace.xs),
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 7),
+                          child: Icon(
+                            Icons.circle,
+                            size: 5,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        const SizedBox(width: AppSpace.sm),
+                        Expanded(
+                          child: Text(
+                            achievement,
+                            style: textTheme.bodyMedium?.copyWith(
+                              color: AppColors.text,
+                              height: 1.5,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+              if (entry.technologies.isNotEmpty) ...[
+                const SizedBox(height: AppSpace.sm),
+                Wrap(
+                  spacing: AppSpace.xs,
+                  runSpacing: AppSpace.xs,
+                  children: entry.technologies
+                      .map((technology) => AppTag(label: technology))
+                      .toList(),
+                ),
+              ],
             ],
           ),
         ),

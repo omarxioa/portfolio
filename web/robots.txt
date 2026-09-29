@@ -1,5 +1,4 @@
 User-agent: *
-
 Allow: /
 
 Sitemap: https://omarabdelnaby.dev/sitemap.xml

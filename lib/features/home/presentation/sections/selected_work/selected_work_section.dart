@@ -10,7 +10,6 @@ import '../../../../../core/theme/tokens/app_radius.dart';
 import '../../../../../core/theme/tokens/app_space.dart';
 import '../../../../../core/theme/tokens/motion.dart';
 import '../../../../../core/widgets/layout/app_container.dart';
-import '../../../../../core/widgets/layout/app_responsive_layout.dart';
 import '../../../../../core/widgets/primitives/app_section.dart';
 import '../../../../../core/widgets/primitives/app_tag.dart';
 
@@ -106,99 +105,38 @@ class SelectedWorkSection extends ConsumerWidget {
         subtitle:
             'A curated selection of products I\'ve designed and developed.',
         padding: EdgeInsets.only(bottom: bottomPadding),
-        child: AppResponsiveLayout(
-          mobile: (_) => _SelectedWorkList(
-            compact: true,
-            activeIndex: activeIndex,
-            isLightMode: isLightMode,
-            onTabSelected: (index) {
-              ref.read(_selectedWorkActiveIndexProvider.notifier).state = index;
-            },
-            onModeChanged: (enabled) {
-              ref.read(_selectedWorkLightModeProvider.notifier).state = enabled;
-            },
-            salatiActiveIndex: salatiActiveIndex,
-            salatiLightMode: salatiLightMode,
-            onSalatiTabSelected: (index) {
-              ref.read(_selectedWorkSalatiActiveIndexProvider.notifier).state =
-                  index;
-            },
-            onSalatiModeChanged: (enabled) {
-              ref.read(_selectedWorkSalatiLightModeProvider.notifier).state =
-                  enabled;
-            },
-            myMedScreens: _screens,
-            salatiScreens: _salatiScreens,
-          ),
-          tablet: (_) => _SelectedWorkList(
-            compact: false,
-            activeIndex: activeIndex,
-            isLightMode: isLightMode,
-            onTabSelected: (index) {
-              ref.read(_selectedWorkActiveIndexProvider.notifier).state = index;
-            },
-            onModeChanged: (enabled) {
-              ref.read(_selectedWorkLightModeProvider.notifier).state = enabled;
-            },
-            salatiActiveIndex: salatiActiveIndex,
-            salatiLightMode: salatiLightMode,
-            onSalatiTabSelected: (index) {
-              ref.read(_selectedWorkSalatiActiveIndexProvider.notifier).state =
-                  index;
-            },
-            onSalatiModeChanged: (enabled) {
-              ref.read(_selectedWorkSalatiLightModeProvider.notifier).state =
-                  enabled;
-            },
-            myMedScreens: _screens,
-            salatiScreens: _salatiScreens,
-          ),
-          desktop: (_) => _SelectedWorkList(
-            compact: false,
-            activeIndex: activeIndex,
-            isLightMode: isLightMode,
-            onTabSelected: (index) {
-              ref.read(_selectedWorkActiveIndexProvider.notifier).state = index;
-            },
-            onModeChanged: (enabled) {
-              ref.read(_selectedWorkLightModeProvider.notifier).state = enabled;
-            },
-            salatiActiveIndex: salatiActiveIndex,
-            salatiLightMode: salatiLightMode,
-            onSalatiTabSelected: (index) {
-              ref.read(_selectedWorkSalatiActiveIndexProvider.notifier).state =
-                  index;
-            },
-            onSalatiModeChanged: (enabled) {
-              ref.read(_selectedWorkSalatiLightModeProvider.notifier).state =
-                  enabled;
-            },
-            myMedScreens: _screens,
-            salatiScreens: _salatiScreens,
-          ),
-          ultraWide: (_) => _SelectedWorkList(
-            compact: false,
-            activeIndex: activeIndex,
-            isLightMode: isLightMode,
-            onTabSelected: (index) {
-              ref.read(_selectedWorkActiveIndexProvider.notifier).state = index;
-            },
-            onModeChanged: (enabled) {
-              ref.read(_selectedWorkLightModeProvider.notifier).state = enabled;
-            },
-            salatiActiveIndex: salatiActiveIndex,
-            salatiLightMode: salatiLightMode,
-            onSalatiTabSelected: (index) {
-              ref.read(_selectedWorkSalatiActiveIndexProvider.notifier).state =
-                  index;
-            },
-            onSalatiModeChanged: (enabled) {
-              ref.read(_selectedWorkSalatiLightModeProvider.notifier).state =
-                  enabled;
-            },
-            myMedScreens: _screens,
-            salatiScreens: _salatiScreens,
-          ),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            // The only thing the four AppResponsiveLayout branches ever varied
+            // was `compact`, so one builder replaces them.
+            return _SelectedWorkList(
+              compact: constraints.maxWidth < AppBreakpoints.tablet,
+              activeIndex: activeIndex,
+              isLightMode: isLightMode,
+              onTabSelected: (index) {
+                ref.read(_selectedWorkActiveIndexProvider.notifier).state =
+                    index;
+              },
+              onModeChanged: (enabled) {
+                ref.read(_selectedWorkLightModeProvider.notifier).state =
+                    enabled;
+              },
+              salatiActiveIndex: salatiActiveIndex,
+              salatiLightMode: salatiLightMode,
+              onSalatiTabSelected: (index) {
+                ref
+                    .read(_selectedWorkSalatiActiveIndexProvider.notifier)
+                    .state = index;
+              },
+              onSalatiModeChanged: (enabled) {
+                ref
+                    .read(_selectedWorkSalatiLightModeProvider.notifier)
+                    .state = enabled;
+              },
+              myMedScreens: _screens,
+              salatiScreens: _salatiScreens,
+            );
+          },
         ),
       ),
     );
@@ -245,11 +183,11 @@ class _SelectedWorkList extends StatelessWidget {
           problem: 'Patients forget medications.',
           solution: 'Offline reminders + adherence tracking + support circle.',
           impact:
-              'Built as a scalable Flutter application with clean architecture and local-first synchronization.',
+              'Engineered for the failure cases that break medication reminders: every screen reads from local storage and works with no network, and scheduled doses still fire after the app is killed, after Doze, and after a reboot.',
           highlights: const [
-            'Adherence +37%',
-            'Local-first sync',
-            'Reminders at scale',
+            'Offline-first data layer',
+            'Survives app kill & reboot',
+            'Riverpod + Clean Architecture',
           ],
           contributions: const [
             'Designed feature architecture with Riverpod + Clean Architecture.',
@@ -939,7 +877,7 @@ class _PhoneBackdrop extends StatelessWidget {
               height: 160,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: AppColors.primarySoft.withValues(alpha: 0.08),
+                color: AppColors.primary.withValues(alpha: 0.06),
               ),
             ),
           ),
@@ -1011,14 +949,14 @@ class _CaseStudyTabsState extends State<_CaseStudyTabs> {
                   padding: const EdgeInsets.symmetric(vertical: AppSpace.sm),
                   decoration: BoxDecoration(
                     color: isActive
-                        ? AppColors.primary.withValues(alpha: 0.16)
+                        ? AppColors.lime.withValues(alpha: 0.16)
                         : isHovered || isFocused
                         ? Colors.white.withValues(alpha: 0.05)
                         : Colors.white.withValues(alpha: 0.03),
                     borderRadius: BorderRadius.circular(AppRadius.pill),
                     border: Border.all(
                       color: isActive
-                          ? AppColors.primary.withValues(alpha: 0.24)
+                          ? AppColors.lime.withValues(alpha: 0.24)
                           : isFocused
                           ? AppColors.primary.withValues(alpha: 0.24)
                           : Colors.white.withValues(alpha: 0.06),
@@ -1026,7 +964,7 @@ class _CaseStudyTabsState extends State<_CaseStudyTabs> {
                     boxShadow: isActive
                         ? [
                             BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.14),
+                              color: AppColors.lime.withValues(alpha: 0.14),
                               blurRadius: 18,
                               spreadRadius: 1,
                             ),
@@ -1348,7 +1286,7 @@ class _ModeButton extends StatelessWidget {
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(AppRadius.pill),
               color: isActive
-                  ? AppColors.primary.withValues(alpha: 0.18)
+                  ? AppColors.lime.withValues(alpha: 0.18)
                   : Colors.transparent,
             ),
             child: Row(

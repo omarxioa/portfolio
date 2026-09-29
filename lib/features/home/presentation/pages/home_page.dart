@@ -10,11 +10,16 @@ import '../../../../core/widgets/layout/app_container.dart';
 import '../../../../core/widgets/terminal_intro_overlay.dart';
 import '../sections/hero/hero_section.dart';
 import '../sections/selected_work/selected_work_section.dart';
+import '../widgets/about_section.dart';
 import '../widgets/experience_section.dart';
 import '../widgets/footer_section.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+  const HomePage({super.key, this.showIntro = true});
+
+  /// Whether to play the terminal intro. Resolved in `main` from storage before
+  /// the first frame, so a returning visitor never sees it flash.
+  final bool showIntro;
 
   @override
   State<HomePage> createState() => _HomePageState();
@@ -27,10 +32,11 @@ class _HomePageState extends State<HomePage> {
 
   final ScrollController _scrollController = ScrollController();
   final GlobalKey _heroKey = GlobalKey();
+  final GlobalKey _aboutKey = GlobalKey();
   final GlobalKey _selectedWorkKey = GlobalKey();
   final GlobalKey _experienceKey = GlobalKey();
   final GlobalKey _footerKey = GlobalKey();
-  bool _showIntro = true;
+  late bool _showIntro = widget.showIntro;
   bool _showBackToTop = false;
 
   @override
@@ -115,12 +121,19 @@ class _HomePageState extends State<HomePage> {
     await _launch(Uri.parse(url), errorMessage);
   }
 
-  Future<void> _launch(Uri uri, String errorMessage) async {
+  Future<void> _launch(
+    Uri uri,
+    String errorMessage, {
+    bool newTab = true,
+  }) async {
     try {
       final launched = await launchUrl(
         uri,
         mode: LaunchMode.platformDefault,
-        webOnlyWindowName: '_blank',
+        // Left null for mailto/tel so url_launcher_web can pick its own target:
+        // it needs `_top` on Safari, and forcing `_blank` there strands the
+        // visitor on an empty tab.
+        webOnlyWindowName: newTab ? '_blank' : null,
       );
       // Only meaningful off web: url_launcher_web passes `noopener` to
       // window.open, so it cannot observe the result and always reports true.
@@ -133,6 +146,12 @@ class _HomePageState extends State<HomePage> {
       _notify(errorMessage);
     }
   }
+
+  Future<void> _openEmail() => _launch(
+    Uri.parse(AppData.mailtoUrl),
+    'No mail app is set up. My address is ${AppData.email}',
+    newTab: false,
+  );
 
   Future<void> _openWhatsApp() =>
       _openExternalLink(AppData.whatsAppUrl, 'Unable to open WhatsApp.');
@@ -244,6 +263,7 @@ class _HomePageState extends State<HomePage> {
         : _desktopNavHeight;
 
     final sections = [
+      _NavAction(label: 'About', onTap: () => _scrollToSection(_aboutKey)),
       _NavAction(label: 'Work', onTap: _scrollToSelectedWork),
       _NavAction(
         label: 'Experience',
@@ -280,6 +300,10 @@ class _HomePageState extends State<HomePage> {
                       ),
                     ),
                     KeyedSubtree(
+                      key: _aboutKey,
+                      child: const AboutSection(),
+                    ),
+                    KeyedSubtree(
                       key: _selectedWorkKey,
                       child: const SelectedWorkSection(),
                     ),
@@ -290,6 +314,7 @@ class _HomePageState extends State<HomePage> {
                     KeyedSubtree(
                       key: _footerKey,
                       child: FooterSection(
+                        onEmail: _openEmail,
                         onWhatsApp: _openWhatsApp,
                         onLinkedIn: _openLinkedIn,
                         onGithub: _openGithub,

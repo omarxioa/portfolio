@@ -3,24 +3,19 @@ class ExperienceModel {
   final String role;
   final String duration;
 
+  /// What the role actually delivered. Kept outcome-shaped rather than a list
+  /// of responsibilities, and deliberately free of numbers that cannot be
+  /// backed up in an interview.
+  final List<String> achievements;
+
+  final List<String> technologies;
+
   const ExperienceModel({
     required this.company,
     required this.role,
     required this.duration,
-  });
-}
-
-class ProductModel {
-  final String title;
-  final String summary;
-  final String impact;
-  final List<String> stack;
-
-  const ProductModel({
-    required this.title,
-    required this.summary,
-    required this.impact,
-    required this.stack,
+    this.achievements = const [],
+    this.technologies = const [],
   });
 }
 
@@ -36,9 +31,12 @@ abstract final class AppData {
 
   static const title = 'Mobile Software Engineer';
 
-  static const heroLead = 'Hello. I\'m';
+  static const email = 'omarxioa@gmail.com';
 
-  static const heroName = 'Omar.';
+  static const emailSubject = 'Project enquiry from your portfolio';
+
+  static String get mailtoUrl =>
+      'mailto:$email?subject=${Uri.encodeComponent(emailSubject)}';
 
   static const github = 'https://github.com/omarxioa';
 
@@ -65,23 +63,27 @@ abstract final class AppData {
   }
 
   static const about =
-      'Senior Flutter Developer with 5+ years of experience building scalable mobile applications. Founder of SOAcode and experienced in leading development teams, architecting enterprise solutions, and delivering production-ready applications for startups and businesses.';
+      'Mobile Software Engineer with five years building Flutter applications '
+      'and seven in software. I founded SOAcode, where I lead mobile '
+      'development for client and in-house products: architecture, delivery, '
+      'and the standards the team builds against.';
 
-  static const heroGreeting = 'Hello. I\'m Omar.';
+  static const heroAvailability = 'Available for work';
 
-  static const heroSummary =
-      'I build product-first mobile experiences for healthcare, enterprise, and fast-moving teams.';
+  static const heroGreeting = 'Hi, I\'m Omar.';
 
-  static const heroRotatingWords = [
-    'polished',
-    'scalable',
-    'beautiful',
-    'fast',
-    'reliable',
-    'production-ready',
+  /// Rendered as two lines, so the break is part of the copy.
+  static const heroRole = 'Mobile Software\nEngineer.';
+
+  static const heroTypingPrefix = 'Building ';
+
+  static const heroTypingPhrases = [
+    'products people love.',
+    'offline-first experiences.',
+    'scalable mobile products.',
+    'delightful user experiences.',
+    'reliable Flutter apps.',
   ];
-
-  static const heroPlatforms = ['Flutter', 'Android', 'iOS', 'Web'];
 
   static const skills = [
     'Flutter',
@@ -106,40 +108,33 @@ abstract final class AppData {
   static const experiences = [
     ExperienceModel(
       company: 'SOAcode',
-      role: 'Founder & Senior Flutter Developer',
+      role: 'Founder & Mobile Development Team Lead',
       duration: '2021 - Present',
+      achievements: [
+        'Lead mobile development end to end, from architecture and estimation through store release and post-launch monitoring.',
+        'Set the Flutter standards the team builds against: Riverpod for state, Clean Architecture boundaries between layers, and review on every pull request.',
+        'Grew developers through code review, pairing, and hands-on onboarding to the codebase and its conventions.',
+        'Shipped myMed and Salati to production, including offline-first data layers and notification scheduling that survives app termination and reboot.',
+      ],
+      technologies: [
+        'Flutter',
+        'Dart',
+        'Riverpod',
+        'Clean Architecture',
+        'Firebase',
+        'CI/CD',
+      ],
     ),
     ExperienceModel(
       company: 'Syntax',
       role: 'DevOps Engineer',
       duration: '2019 - 2021',
+      achievements: [
+        'Built and maintained CI/CD pipelines, automating build and release workflows that had been run by hand.',
+        'Managed deployment environments and production monitoring, shortening the path from merge to a verified release.',
+      ],
+      technologies: ['CI/CD', 'Git'],
     ),
   ];
 
-  static const products = [
-    ProductModel(
-      title: 'Medication Platform',
-      summary:
-          'End-to-end medication workflow for patients and care teams with scheduling, refill reminders, and dose tracking.',
-      impact:
-          'Increased daily adherence by 37% and reduced missed-dose reports within the first quarter.',
-      stack: ['Flutter', 'Offline-First', 'Notifications', 'Analytics'],
-    ),
-    ProductModel(
-      title: 'Vendor Management System',
-      summary:
-          'Mobile-first operations suite to manage onboarding, approvals, catalog updates, and fulfillment visibility.',
-      impact:
-          'Cut vendor onboarding cycle from 12 days to 4 days across three regional teams.',
-      stack: ['Flutter', 'Clean Architecture', 'Role Permissions', 'CI/CD'],
-    ),
-    ProductModel(
-      title: 'Field Service Execution App',
-      summary:
-          'Technician-facing product for dispatch, checklists, customer signatures, and evidence capture from the field.',
-      impact:
-          'Improved first-visit completion rates by 24% through guided workflows and offline reliability.',
-      stack: ['Flutter', 'Geo APIs', 'Sync Engine', 'Crash Reporting'],
-    ),
-  ];
 }

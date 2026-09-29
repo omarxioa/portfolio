@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 
 import '../../../../../core/constants/app_colors.dart';
+import '../../../../../core/constants/app_data.dart';
 import '../../../../../core/theme/tokens/app_radius.dart';
 import '../../../../../core/theme/tokens/app_space.dart';
 import 'hero_buttons.dart';
@@ -66,7 +67,7 @@ class HeroContent extends StatelessWidget {
                 ),
                 const SizedBox(width: 7),
                 Text(
-                  'Available for work',
+                  AppData.heroAvailability,
                   style: textTheme.labelSmall?.copyWith(
                     color: AppColors.text,
                     fontWeight: FontWeight.w500,
@@ -78,7 +79,7 @@ class HeroContent extends StatelessWidget {
           ),
           const SizedBox(height: AppSpace.md),
           Text(
-            'Hi, I\'m Omar.',
+            AppData.heroGreeting,
             style: textTheme.displayLarge?.copyWith(
               fontSize: introSize,
               height: 0.98,
@@ -87,7 +88,7 @@ class HeroContent extends StatelessWidget {
             ),
           ),
           Text(
-            'Mobile Software\nEngineer.',
+            AppData.heroRole,
             style: textTheme.displayMedium?.copyWith(
               fontSize: roleSize,
               height: 0.95,
@@ -149,20 +150,11 @@ class _CalmTypingLine extends StatefulWidget {
 }
 
 class _CalmTypingLineState extends State<_CalmTypingLine> {
-  static const _staticPrefix = 'Building ';
   static const _typeDelay = Duration(milliseconds: 78);
   static const _deleteDelay = Duration(milliseconds: 40);
   static const _pauseAfterType = Duration(milliseconds: 1800);
   static const _pauseBeforeType = Duration(milliseconds: 420);
   static const _cursorBlink = Duration(milliseconds: 560);
-
-  static const List<String> _phrases = [
-    'products people love.',
-    'offline-first experiences.',
-    'scalable mobile products.',
-    'delightful user experiences.',
-    'reliable Flutter apps.',
-  ];
 
   int _phraseIndex = 0;
   int _charCount = 0;
@@ -196,7 +188,7 @@ class _CalmTypingLineState extends State<_CalmTypingLine> {
   void _tick() {
     if (!mounted) return;
 
-    final phrase = _phrases[_phraseIndex % _phrases.length];
+    final phrase = AppData.heroTypingPhrases[_phraseIndex % AppData.heroTypingPhrases.length];
     final totalLength = phrase.length;
 
     if (!_isDeleting) {
@@ -216,20 +208,21 @@ class _CalmTypingLineState extends State<_CalmTypingLine> {
       return;
     }
 
-    _phraseIndex = (_phraseIndex + 1) % _phrases.length;
+    _phraseIndex =
+        (_phraseIndex + 1) % AppData.heroTypingPhrases.length;
     _isDeleting = false;
     _schedule(_pauseBeforeType);
   }
 
   @override
   Widget build(BuildContext context) {
-    final phrase = _phrases[_phraseIndex % _phrases.length];
+    final phrase = AppData.heroTypingPhrases[_phraseIndex % AppData.heroTypingPhrases.length];
     final visible = phrase.substring(0, _charCount.clamp(0, phrase.length));
 
     return RichText(
       text: TextSpan(
         children: [
-          TextSpan(text: _staticPrefix, style: widget.style),
+          TextSpan(text: AppData.heroTypingPrefix, style: widget.style),
           TextSpan(text: visible, style: widget.highlightStyle ?? widget.style),
           TextSpan(
             text: '|',
