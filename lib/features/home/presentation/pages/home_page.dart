@@ -1,6 +1,5 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../../../core/constants/app_data.dart';
@@ -93,24 +92,23 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Future<void> _downloadCvFromAssets() async {
-    const assetPath = AppData.cvAssetPath;
-
-    try {
-      await rootBundle.load(assetPath);
-    } catch (_) {
-      _notify('CV file not found. Add it at $assetPath');
-      return;
-    }
-
-    // On web the bundle is served under the document's base href, so resolve
-    // against it rather than assuming the app sits at the domain root. Off web
-    // a bundled asset has no launchable URL at all, so use the hosted copy.
+  // Deliberately synchronous: this has to reach launchUrl inside the tap's own
+  // task. Chrome keeps transient user activation alive across awaits, but
+  // Safari discards it the moment the gesture's task ends and then blocks the
+  // resulting window.open with no error at all, so awaiting anything first
+  // (an asset existence check, for instance) makes the button do nothing on
+  // Safari while still working on Chrome.
+  void _openCv() {
+    // Off web a bundled asset has no launchable URL, so use the hosted copy.
+    // On web the app is deployed at the domain root, so anchoring on the
+    // origin keeps this right on localhost and preview deploys too -- and,
+    // unlike resolving against Uri.base, it cannot be thrown off by the path
+    // of whatever deep link the visitor arrived on.
     final uri = kIsWeb
-        ? Uri.base.resolve('assets/$assetPath')
+        ? Uri.parse('${Uri.base.origin}/assets/${AppData.cvAssetPath}')
         : Uri.parse(AppData.hostedCvUrl);
 
-    await _launch(uri, 'Unable to open CV.');
+    _launch(uri, 'Unable to open CV.');
   }
 
   Future<void> _openExternalLink(String url, String errorMessage) async {
@@ -124,6 +122,8 @@ class _HomePageState extends State<HomePage> {
         mode: LaunchMode.platformDefault,
         webOnlyWindowName: '_blank',
       );
+      // Only meaningful off web: url_launcher_web passes `noopener` to
+      // window.open, so it cannot observe the result and always reports true.
       if (!launched) {
         _notify(errorMessage);
       }
@@ -218,11 +218,11 @@ class _HomePageState extends State<HomePage> {
                         ),
                       ),
                       onTap: () {
+                        // Launch first, and without the delay the navigation
+                        // items use to let the sheet close: a timer callback
+                        // carries no user activation, so Safari blocks it.
+                        _openCv();
                         Navigator.of(sheetContext).pop();
-                        Future<void>.delayed(
-                          const Duration(milliseconds: 120),
-                          _downloadCvFromAssets,
-                        );
                       },
                     ),
                   ],
@@ -311,7 +311,7 @@ class _HomePageState extends State<HomePage> {
                   child: AppContainer(
                     child: _TopNavBar(
                       actions: sections,
-                      onResumeTap: _downloadCvFromAssets,
+                      onResumeTap: _openCv,
                       compact: isCompactNav,
                       onMenuTap: () => _openMobileNavSheet(sections),
                     ),
