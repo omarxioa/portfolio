@@ -1,67 +1,39 @@
-# Omar Abdelnaby — Portfolio
+# omarabdelnaby.dev
 
-Personal portfolio built with Flutter Web. Live at
-**[omarabdelnaby.dev](https://omarabdelnaby.dev)**.
+Personal portfolio of Omar Abdelnaby — Mobile Software Engineer.
 
-A single scrolling page: hero, about and stack, two case studies with
-interactive device previews, experience, and contact.
+Built with **Next.js (App Router) + Tailwind CSS**, exported as a fully static site and deployed to **Cloudflare Pages** by `.github/workflows/deploy.yml` on every push to `main`.
 
-## Architecture
-
-```
-lib/
-  core/
-    constants/    AppData — every piece of site copy lives here, not in widgets
-    theme/        ThemeData plus design tokens (space, radius, breakpoints, motion)
-    widgets/      Layout primitives and shared pieces (AppSection, AppTag, …)
-    router/       onGenerateRoute
-  features/home/presentation/
-    pages/        HomePage — section order, navigation, launch handlers
-    sections/     Hero and Selected Work
-    widgets/      About, Experience, Footer
-```
-
-Two conventions worth knowing before editing:
-
-- **Copy belongs in `AppData`.** Widgets read it; they do not hold it. This is
-  what keeps a title change from becoming a hunt through the widget tree.
-- **Two accents with fixed roles.** `AppColors.lime` marks anything
-  interactive — buttons, CTAs, the active state of a control. `AppColors.primary`
-  (teal) is structural only: bullets, eyebrows, tags, decorative glows. If it is
-  lime, it is clickable.
-
-## Notes on the web build
-
-- **Fonts are bundled**, as static per-weight instances under `assets/fonts`,
-  and `GoogleFonts.config.allowRuntimeFetching` is `false`. There is no request
-  to `fonts.gstatic.com` on first paint. Adding a weight to the theme means
-  adding the matching file, named `<Family>-<Weight>.woff2` — that name is how
-  `google_fonts` finds it.
-- **`web/index.html` carries a boot splash** removed on Flutter's
-  `flutter-first-frame` event, plus a `<noscript>` copy of the content, since a
-  canvas-rendered app gives crawlers no text to read.
-- **Launches must stay synchronous.** Safari drops the user gesture when the
-  tap's task ends and then blocks `window.open` silently, so nothing may be
-  awaited between a tap and `launchUrl`. See the comment on `_openCv` in
-  `home_page.dart`.
-- **`web/_headers`** pins the immutable build output for a year and keeps
-  `index.html` uncached.
+Every page is pre-rendered HTML, so search engines and link previews see the full content (the previous Flutter Web build shipped an empty shell that crawlers couldn't read).
 
 ## Develop
 
 ```bash
-flutter pub get
-flutter run -d chrome
-flutter test
-flutter analyze
+npm install
+npm run dev     # http://localhost:3000
+npm run build   # static export to ./out
 ```
 
-## Build
+## Where to edit content
 
-```bash
-flutter build web --release
-```
+| What | File |
+| --- | --- |
+| Name, links, hero copy, about, skills, experience | `src/data/site.ts` |
+| Projects / case studies (myMed, Salati) | `src/data/projects.ts` |
+| Project screenshots | `public/images/` |
+| Resume PDF | `public/cv/Omar-cv.pdf` |
+| Blog posts | `content/blog/*.md` |
 
-## License
+### Publishing a blog post
 
-Personal portfolio. Not licensed for reuse.
+Posts are Markdown files with front matter. A post with `draft: true` is built and reachable at `/blog/<slug>/` for review, but is hidden from the blog index and sitemap and marked `noindex`. Change it to `draft: false` to publish. The "Blog" link in the nav appears automatically once at least one post is published.
+
+### When the apps go live on the stores
+
+In `src/data/projects.ts`, change `storeStatus` from `"coming-soon"` to `"live"` for that project (and add store links to the case-study page).
+
+## SEO
+
+- Per-page `<title>`, description, canonical URL, Open Graph and Twitter tags
+- JSON-LD: `Person` (site-wide), `SoftwareApplication` (case studies), `BlogPosting` (articles)
+- `sitemap.xml` and `robots.txt` generated at build time
