@@ -1,4 +1,6 @@
-@import "tailwindcss";
+/* Scan only src/ for class names. Keeps Tailwind out of unrelated folders,
+   e.g. leftover Flutter platform dirs with symlinks into ~/.pub-cache. */
+@import "tailwindcss" source("..");
 
 @theme {
   /* Palette ported from the Flutter app (app_colors.dart). */
