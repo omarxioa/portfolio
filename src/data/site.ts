@@ -27,8 +27,8 @@ export const site = {
     "reliable Flutter apps.",
   ],
   about:
-    "Mobile Software Engineer with five years building Flutter applications " +
-    "and seven in software. I founded SOAcode, where I lead mobile " +
+    "Mobile Software Engineer with 5+ years building production-ready iOS " +
+    "and Android applications with Flutter, and seven in software. I founded SOAcode, where I lead mobile " +
     "development for client and in-house products: architecture, delivery, " +
     "and the standards the team builds against.",
   skills: [
@@ -86,7 +86,6 @@ export const experiences: Experience[] = [
       "Lead mobile development end to end, from architecture and estimation through store release and post-launch monitoring.",
       "Set the Flutter standards the team builds against: Riverpod for state, Clean Architecture boundaries between layers, and review on every pull request.",
       "Grew developers through code review, pairing, and hands-on onboarding to the codebase and its conventions.",
-      "Shipped myMed and Salati to production, including offline-first data layers and notification scheduling that survives app termination and reboot.",
     ],
     technologies: [
       "Flutter",

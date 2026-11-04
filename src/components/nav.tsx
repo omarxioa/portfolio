@@ -26,7 +26,9 @@ export function Nav() {
             <Link
               key={link.href}
               href={link.href}
-              className="rounded-md px-2.5 py-2 text-sm text-muted transition-colors hover:text-foreground sm:px-3"
+              className={`rounded-md px-2.5 py-2 text-sm text-muted transition-colors hover:text-foreground sm:px-3 ${
+                link.href === "/#contact" ? "" : "hidden sm:inline-flex"
+              }`}
             >
               {link.label}
             </Link>
@@ -35,7 +37,7 @@ export function Nav() {
             href={site.cvPath}
             target="_blank"
             rel="noopener noreferrer"
-            className="ml-1 hidden h-9 items-center rounded-lg bg-lime px-4 font-display text-sm font-semibold text-background transition-colors hover:bg-lime/85 sm:inline-flex"
+            className="ml-1 inline-flex h-9 items-center rounded-lg border border-white/25 px-4 font-display text-sm font-semibold text-foreground transition-colors hover:border-white/60 hover:bg-white/5"
           >
             Resume
           </a>

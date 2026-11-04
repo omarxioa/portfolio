@@ -48,22 +48,24 @@ export function Badge({ children }: { children: ReactNode }) {
 }
 
 const buttonBase =
-  "inline-flex h-12 min-w-[150px] items-center justify-center gap-2 rounded-lg px-5 font-display text-sm font-semibold transition-colors";
+  "inline-flex h-12 sm:min-w-[150px] items-center justify-center gap-2 rounded-lg px-5 font-display text-sm font-semibold transition-colors";
 
 export function PrimaryLink({
   href,
   children,
   external,
+  className = "",
 }: {
   href: string;
   children: ReactNode;
   external?: boolean;
+  className?: string;
 }) {
   return (
     <a
       href={href}
       {...(external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-      className={`${buttonBase} bg-lime text-background hover:bg-lime/85`}
+      className={`${buttonBase} bg-lime text-background hover:bg-lime/85 ${className}`}
     >
       {children}
     </a>
@@ -74,12 +76,14 @@ export function SecondaryLink({
   href,
   children,
   external,
+  className: extra = "",
 }: {
   href: string;
   children: ReactNode;
   external?: boolean;
+  className?: string;
 }) {
-  const className = `${buttonBase} border border-white/25 text-foreground hover:border-white/60 hover:bg-white/5`;
+  const className = `${buttonBase} border border-white/25 text-foreground hover:border-white/60 hover:bg-white/5 ${extra}`;
   if (external) {
     return (
       <a
@@ -112,5 +116,19 @@ export function Card({
     >
       {children}
     </div>
+  );
+}
+
+export function ArrowLink({ href, children }: { href: string; children: ReactNode }) {
+  return (
+    <Link
+      href={href}
+      className="group inline-flex items-center gap-2 font-display text-sm font-semibold text-foreground underline-offset-4 hover:underline"
+    >
+      {children}
+      <span className="transition-transform group-hover:translate-x-1" aria-hidden>
+        →
+      </span>
+    </Link>
   );
 }

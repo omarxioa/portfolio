@@ -76,7 +76,7 @@ export function ScreenGallery({
 
       {/* Phone */}
       <div
-        className="mt-6 w-full max-w-[290px] rounded-[2.4rem] border border-white/10 bg-elevated p-2.5 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
+        className="mt-6 w-full max-w-[230px] rounded-[2.2rem] sm:max-w-[290px] sm:rounded-[2.4rem] border border-white/10 bg-elevated p-2.5 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
         onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
         onTouchEnd={(e) => {
           if (touchX.current === null) return;
@@ -85,7 +85,7 @@ export function ScreenGallery({
           touchX.current = null;
         }}
       >
-        <div className="relative aspect-[9/19.5] overflow-hidden rounded-[2rem] bg-background">
+        <div className="relative aspect-[9/19.5] overflow-hidden rounded-[1.8rem] bg-background sm:rounded-[2rem]">
           {screens.map((s, i) =>
             (["dark", "light"] as const).map((mode) => {
               const visible = i === active && (mode === "light") === light;
@@ -109,7 +109,7 @@ export function ScreenGallery({
       </div>
 
       {/* Active screen caption */}
-      <div className="mt-5 min-h-[4.5rem] text-center" aria-live="polite">
+      <div className="mt-4 min-h-[4.5rem] text-center" aria-live="polite">
         <p className="font-display text-lg font-semibold">{screen.title}</p>
         <p className="mx-auto mt-1 max-w-[290px] text-sm text-muted">
           {screen.subtitle}
@@ -129,7 +129,7 @@ export function ScreenGallery({
               aria-label={s.title}
               title={s.title}
               onClick={() => setActive(i)}
-              className={`flex h-12 w-14 items-center justify-center rounded-full border transition-colors ${
+              className={`flex h-11 w-12 items-center sm:h-12 sm:w-14 justify-center rounded-full border transition-colors ${
                 selected
                   ? "border-lime/40 bg-lime/15 text-lime"
                   : "border-white/10 bg-surface text-muted hover:border-white/30 hover:text-foreground"

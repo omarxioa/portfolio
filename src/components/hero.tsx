@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { site, mailtoUrl, whatsAppUrl } from "@/data/site";
 import { PrimaryLink, SecondaryLink } from "./primitives";
@@ -73,10 +74,29 @@ function TypingLine() {
   );
 }
 
+/** Two of Omar's real app screens, overlapped — desktop only. */
+function HeroPhones() {
+  return (
+    <div className="relative hidden h-[540px] w-[400px] shrink-0 lg:block" aria-hidden>
+      <div className="absolute -inset-10 rounded-full bg-mint/10 blur-3xl" />
+      <div className="absolute left-0 top-12 w-[220px] -rotate-6 rounded-[2.2rem] border border-white/10 bg-elevated p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]">
+        <div className="relative aspect-[9/19.5] overflow-hidden rounded-[1.8rem]">
+          <Image src="/images/today.webp" alt="" fill sizes="220px" className="object-cover object-top" priority />
+        </div>
+      </div>
+      <div className="absolute right-0 top-0 w-[230px] rotate-[5deg] rounded-[2.2rem] border border-white/10 bg-elevated p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]">
+        <div className="relative aspect-[9/19.5] overflow-hidden rounded-[1.8rem]">
+          <Image src="/images/salati_home_dark.webp" alt="" fill sizes="230px" className="object-cover object-top" priority />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function Hero() {
   return (
-    <section className="hero-glow relative flex min-h-[92vh] items-center pt-16">
-      <div className="mx-auto w-full max-w-6xl px-5 py-20">
+    <section className="hero-glow relative flex items-center pt-16 lg:min-h-[86vh]">
+      <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-10 px-5 py-14 sm:py-20">
         <div className="max-w-[920px]">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-sm font-medium">
             <span className="h-1.5 w-1.5 rounded-full bg-lime" />
@@ -103,8 +123,8 @@ export function Hero() {
             </p>
           </div>
 
-          <div className="mt-10 flex flex-wrap gap-4">
-            <PrimaryLink href={whatsAppUrl()} external>
+          <div className="mt-8 grid grid-cols-2 gap-3 sm:flex sm:flex-wrap sm:gap-4">
+            <PrimaryLink href={whatsAppUrl()} external className="col-span-2">
               Let&apos;s Talk
             </PrimaryLink>
             <SecondaryLink href="/#work">View My Work</SecondaryLink>
@@ -113,6 +133,7 @@ export function Hero() {
             </SecondaryLink>
           </div>
         </div>
+        <HeroPhones />
       </div>
     </section>
   );

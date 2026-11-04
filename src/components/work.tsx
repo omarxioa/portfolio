@@ -1,11 +1,10 @@
-import Link from "next/link";
 import { projects } from "@/data/projects";
-import { Badge, Card, SectionHeading, Tag } from "./primitives";
+import { ArrowLink, Badge, Card, SectionHeading, Tag } from "./primitives";
 import { ScreenGallery } from "./screen-gallery";
 
 export function SelectedWork() {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-24">
+    <section className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
       <SectionHeading
         id="work"
         eyebrow="Selected Work"
@@ -42,12 +41,11 @@ export function SelectedWork() {
                     <Tag key={t}>{t}</Tag>
                   ))}
                 </div>
-                <Link
-                  href={`/projects/${project.slug}/`}
-                  className="mt-8 inline-flex h-12 items-center rounded-lg bg-lime px-6 font-display text-sm font-semibold text-background transition-colors hover:bg-lime/85"
-                >
-                  Read the case study →
-                </Link>
+                <div className="mt-8">
+                  <ArrowLink href={`/projects/${project.slug}/`}>
+                    Read the case study
+                  </ArrowLink>
+                </div>
               </div>
               <ScreenGallery name={project.name} screens={project.screens} />
             </div>

@@ -9,7 +9,7 @@ import {
 
 export function About() {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-24">
+    <section className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
       <SectionHeading
         id="about"
         eyebrow="About"
@@ -44,45 +44,49 @@ export function About() {
 
 export function Experience() {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-24">
+    <section className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
       <SectionHeading
         id="experience"
         eyebrow="Experience"
         title="Where I've worked"
       />
-      <div className="mt-12 space-y-6">
-        {experiences.map((exp) => (
-          <Card key={exp.company} className="p-7 sm:p-9">
-            <div className="flex flex-wrap items-baseline justify-between gap-2">
-              <div>
-                <h3 className="text-xl font-semibold">{exp.role}</h3>
-                <p className="mt-1 text-mint">{exp.company}</p>
-              </div>
-              <p className="font-display text-sm text-muted">{exp.duration}</p>
-            </div>
-            <ul className="mt-6 space-y-3 text-muted">
+      <ol className="relative mt-12 border-l border-white/10 pl-8 sm:pl-10">
+        {experiences.map((exp, i) => (
+          <li key={exp.company} className={i === 0 ? "" : "mt-14"}>
+            <span
+              className={`absolute -left-[7px] mt-1.5 h-3.5 w-3.5 rounded-full border-2 border-background ${
+                i === 0 ? "bg-mint shadow-[0_0_0_4px_rgba(107,227,198,0.15)]" : "bg-white/30"
+              }`}
+              aria-hidden
+            />
+            <p className="font-display text-sm text-muted">{exp.duration}</p>
+            <h3 className="mt-2 text-xl font-semibold sm:text-2xl">
+              {exp.role}
+            </h3>
+            <p className="mt-1 text-mint">{exp.company}</p>
+            <ul className="mt-5 max-w-3xl space-y-3 text-muted">
               {exp.achievements.map((a) => (
                 <li key={a} className="flex gap-3">
-                  <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-mint" />
+                  <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-white/30" />
                   <span>{a}</span>
                 </li>
               ))}
             </ul>
-            <div className="mt-6 flex flex-wrap gap-2">
+            <div className="mt-5 flex flex-wrap gap-2">
               {exp.technologies.map((t) => (
                 <Tag key={t}>{t}</Tag>
               ))}
             </div>
-          </Card>
+          </li>
         ))}
-      </div>
+      </ol>
     </section>
   );
 }
 
 export function Contact() {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-24">
+    <section className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
       <Card className="p-10 text-center sm:p-16">
         <SectionHeading
           id="contact"
