@@ -122,3 +122,15 @@ h6 {
   color: var(--color-muted);
   margin: 1.25rem 0;
 }
+
+/* Typing cursor blink (560ms on / 560ms off, as in the Flutter hero). */
+@keyframes blink {
+  0%,
+  50% {
+    opacity: 1;
+  }
+  50.01%,
+  100% {
+    opacity: 0;
+  }
+}

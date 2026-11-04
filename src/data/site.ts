@@ -26,9 +26,6 @@ export const site = {
     "delightful user experiences.",
     "reliable Flutter apps.",
   ],
-  heroSummary:
-    "I build Flutter apps for iOS and Android that keep working when the " +
-    "network doesn't, and lead the team that ships them at SOAcode.",
   about:
     "Mobile Software Engineer with five years building Flutter applications " +
     "and seven in software. I founded SOAcode, where I lead mobile " +
