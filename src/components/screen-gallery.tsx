@@ -1,78 +1,154 @@
 "use client";
 
 import Image from "next/image";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import type { ProjectScreen } from "@/data/projects";
+import { Icon } from "./icons";
 
 /**
- * Interactive phone-screen gallery for case-study pages: tab between screens
- * and flip dark/light mode, ported from the Flutter selected-work card. All
- * screen titles and subtitles are rendered as real HTML for crawlers.
+ * Phone preview ported from the Flutter selected-work card: a Dark/Light
+ * segmented switch above the phone, the active screen's name and subtitle
+ * below it, and the app's own nav icons to move between screens.
+ *
+ * Every screen's image is stacked and cross-faded, so switching is instant
+ * after first load. Arrow keys and horizontal swipes also navigate. All
+ * titles and subtitles are in the HTML for crawlers and screen readers.
  */
 export function ScreenGallery({
   name,
   screens,
+  priority = false,
 }: {
   name: string;
   screens: ProjectScreen[];
+  priority?: boolean;
 }) {
   const [active, setActive] = useState(0);
   const [light, setLight] = useState(false);
+  const touchX = useRef<number | null>(null);
   const screen = screens[active];
 
+  const go = (delta: number) =>
+    setActive((i) => (i + delta + screens.length) % screens.length);
+
   return (
-    <div className="grid items-center gap-10 lg:grid-cols-2">
-      <div className="relative mx-auto w-full max-w-[300px]">
-        <div className="rounded-[2.2rem] border border-white/15 bg-elevated p-2 shadow-2xl">
-          <Image
-            src={light ? screen.light : screen.dark}
-            alt={`${name} — ${screen.title} screen (${light ? "light" : "dark"} mode)`}
-            width={300}
-            height={620}
-            className="w-full rounded-[1.8rem]"
-            priority
-          />
-        </div>
-        <button
-          type="button"
-          onClick={() => setLight(!light)}
-          className="absolute -right-3 top-6 rounded-full border border-white/20 bg-surface px-3 py-1.5 text-xs text-foreground transition-colors hover:border-white/50"
-          aria-label="Toggle light and dark preview"
-        >
-          {light ? "🌙 Dark" : "☀️ Light"}
-        </button>
+    <div
+      className="flex flex-col items-center outline-none"
+      tabIndex={0}
+      aria-label={`${name} screen preview. Use left and right arrow keys to change screens.`}
+      onKeyDown={(e) => {
+        if (e.key === "ArrowRight") go(1);
+        if (e.key === "ArrowLeft") go(-1);
+      }}
+    >
+      {/* Dark / Light segmented switch */}
+      <div
+        className="inline-flex rounded-full border border-white/10 bg-surface p-1"
+        role="radiogroup"
+        aria-label="Preview theme"
+      >
+        {(
+          [
+            { value: false, label: "Dark", icon: "moon" },
+            { value: true, label: "Light", icon: "sun" },
+          ] as const
+        ).map((opt) => {
+          const selected = light === opt.value;
+          return (
+            <button
+              key={opt.label}
+              type="button"
+              role="radio"
+              aria-checked={selected}
+              onClick={() => setLight(opt.value)}
+              className={`inline-flex items-center gap-1.5 rounded-full px-4 py-1.5 font-display text-sm font-semibold transition-colors ${
+                selected
+                  ? "bg-lime/15 text-lime"
+                  : "text-muted hover:text-foreground"
+              }`}
+            >
+              <Icon name={opt.icon} className="h-4 w-4" />
+              {opt.label}
+            </button>
+          );
+        })}
       </div>
-      <div>
-        <div className="flex flex-wrap gap-2" role="tablist">
-          {screens.map((s, i) => (
+
+      {/* Phone */}
+      <div
+        className="mt-6 w-full max-w-[290px] rounded-[2.4rem] border border-white/10 bg-elevated p-2.5 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.8)]"
+        onTouchStart={(e) => (touchX.current = e.touches[0].clientX)}
+        onTouchEnd={(e) => {
+          if (touchX.current === null) return;
+          const dx = e.changedTouches[0].clientX - touchX.current;
+          if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+          touchX.current = null;
+        }}
+      >
+        <div className="relative aspect-[9/19.5] overflow-hidden rounded-[2rem] bg-background">
+          {screens.map((s, i) =>
+            (["dark", "light"] as const).map((mode) => {
+              const visible = i === active && (mode === "light") === light;
+              return (
+                <Image
+                  key={`${s.title}-${mode}`}
+                  src={s[mode]}
+                  alt={visible ? `${name} — ${s.title} screen (${mode} mode)` : ""}
+                  aria-hidden={!visible}
+                  fill
+                  sizes="290px"
+                  priority={priority && i === 0 && mode === "dark"}
+                  className={`object-cover object-top transition-opacity duration-300 ${
+                    visible ? "opacity-100" : "opacity-0"
+                  }`}
+                />
+              );
+            }),
+          )}
+        </div>
+      </div>
+
+      {/* Active screen caption */}
+      <div className="mt-5 min-h-[4.5rem] text-center" aria-live="polite">
+        <p className="font-display text-lg font-semibold">{screen.title}</p>
+        <p className="mx-auto mt-1 max-w-[290px] text-sm text-muted">
+          {screen.subtitle}
+        </p>
+      </div>
+
+      {/* App nav icons */}
+      <div className="mt-3 flex gap-2.5" role="tablist" aria-label="Screens">
+        {screens.map((s, i) => {
+          const selected = i === active;
+          return (
             <button
               key={s.title}
               type="button"
               role="tab"
-              aria-selected={i === active}
+              aria-selected={selected}
+              aria-label={s.title}
+              title={s.title}
               onClick={() => setActive(i)}
-              className={`rounded-full border px-4 py-2 font-display text-sm transition-colors ${
-                i === active
-                  ? "border-lime bg-lime text-background"
-                  : "border-white/20 text-muted hover:border-white/50 hover:text-foreground"
+              className={`flex h-12 w-14 items-center justify-center rounded-full border transition-colors ${
+                selected
+                  ? "border-lime/40 bg-lime/15 text-lime"
+                  : "border-white/10 bg-surface text-muted hover:border-white/30 hover:text-foreground"
               }`}
             >
-              {s.title}
+              <Icon name={s.icon} />
             </button>
-          ))}
-        </div>
-        <ul className="mt-8 space-y-5">
-          {screens.map((s, i) => (
-            <li
-              key={s.title}
-              className={i === active ? "" : "opacity-50"}
-            >
-              <h3 className="font-display font-semibold">{s.title}</h3>
-              <p className="mt-1 text-muted">{s.subtitle}</p>
-            </li>
-          ))}
-        </ul>
+          );
+        })}
       </div>
+
+      {/* Full list for crawlers and screen readers. */}
+      <ul className="sr-only">
+        {screens.map((s) => (
+          <li key={s.title}>
+            {s.title}: {s.subtitle}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }

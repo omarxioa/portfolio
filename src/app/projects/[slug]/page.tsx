@@ -101,32 +101,44 @@ export default async function ProjectPage({
           </Card>
         </div>
 
-        <section className="mt-20">
-          <Eyebrow>Inside the app</Eyebrow>
-          <h2 className="mt-3 text-3xl font-semibold">Screens that matter</h2>
-          <div className="mt-10">
-            <ScreenGallery name={project.name} screens={project.screens} />
-          </div>
-        </section>
-
-        <section className="mt-20 grid gap-10 lg:grid-cols-2">
-          <div>
-            <Eyebrow>My contribution</Eyebrow>
-            <ul className="mt-5 space-y-3 text-muted">
-              {project.contributions.map((c) => (
-                <li key={c} className="flex gap-3">
-                  <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-mint" />
-                  <span>{c}</span>
-                </li>
-              ))}
-            </ul>
-          </div>
-          <div>
-            <Eyebrow>Technology</Eyebrow>
-            <div className="mt-5 flex flex-wrap gap-2.5">
-              {project.technologies.map((t) => (
-                <Tag key={t}>{t}</Tag>
-              ))}
+        <section className="mt-20 grid gap-14 lg:grid-cols-[340px_1fr] lg:items-start">
+          <ScreenGallery
+            name={project.name}
+            screens={project.screens}
+            priority
+          />
+          <div className="space-y-12 lg:pt-14">
+            <div>
+              <Eyebrow>Inside the app</Eyebrow>
+              <ul className="mt-5 space-y-4">
+                {project.screens.map((s) => (
+                  <li key={s.title}>
+                    <h2 className="font-display text-lg font-semibold">
+                      {s.title}
+                    </h2>
+                    <p className="mt-1 text-muted">{s.subtitle}</p>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <Eyebrow>My contribution</Eyebrow>
+              <ul className="mt-5 space-y-3 text-muted">
+                {project.contributions.map((c) => (
+                  <li key={c} className="flex gap-3">
+                    <span className="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-mint" />
+                    <span>{c}</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            <div>
+              <Eyebrow>Technology</Eyebrow>
+              <div className="mt-5 flex flex-wrap gap-2.5">
+                {project.technologies.map((t) => (
+                  <Tag key={t}>{t}</Tag>
+                ))}
+              </div>
             </div>
           </div>
         </section>

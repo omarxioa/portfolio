@@ -1,7 +1,7 @@
-import Image from "next/image";
 import Link from "next/link";
 import { projects } from "@/data/projects";
 import { Badge, Card, SectionHeading, Tag } from "./primitives";
+import { ScreenGallery } from "./screen-gallery";
 
 export function SelectedWork() {
   return (
@@ -15,7 +15,7 @@ export function SelectedWork() {
       <div className="mt-12 space-y-8">
         {projects.map((project) => (
           <Card key={project.slug} className="overflow-hidden">
-            <div className="grid gap-8 p-7 sm:p-10 lg:grid-cols-[3fr_2fr] lg:items-center">
+            <div className="grid gap-8 p-7 sm:p-10 lg:grid-cols-[1fr_340px] lg:items-center">
               <div>
                 <div className="flex items-center gap-3">
                   <span className="font-display text-sm text-mint">
@@ -49,17 +49,7 @@ export function SelectedWork() {
                   Read the case study →
                 </Link>
               </div>
-              <div className="relative mx-auto w-full max-w-[280px]">
-                <div className="rounded-[2rem] border border-white/15 bg-elevated p-2 shadow-2xl">
-                  <Image
-                    src={project.screens[0].dark}
-                    alt={`${project.name} — ${project.screens[0].title} screen`}
-                    width={280}
-                    height={580}
-                    className="w-full rounded-[1.6rem]"
-                  />
-                </div>
-              </div>
+              <ScreenGallery name={project.name} screens={project.screens} />
             </div>
           </Card>
         ))}

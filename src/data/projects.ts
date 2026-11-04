@@ -1,5 +1,8 @@
+import type { IconName } from "@/components/icons";
+
 export interface ProjectScreen {
   title: string;
+  icon: IconName;
   subtitle: string;
   dark: string;
   light: string;
@@ -64,24 +67,28 @@ export const projects: Project[] = [
     screens: [
       {
         title: "Today",
+        icon: "home",
         subtitle: "Daily plan, reminders, and caregiver support at a glance.",
         dark: "/images/today.webp",
         light: "/images/today_light.webp",
       },
       {
         title: "Progress",
+        icon: "chart",
         subtitle: "Weekly consistency, streaks, and missed-dose recovery.",
         dark: "/images/progress.webp",
         light: "/images/progress_light.webp",
       },
       {
         title: "Treatment",
+        icon: "pill",
         subtitle: "Medication timelines, instructions, and refill tracking.",
         dark: "/images/treatment.webp",
         light: "/images/treatment_light.webp",
       },
       {
         title: "Support",
+        icon: "support",
         subtitle: "Caregiver activity, check-ins, and shared accountability.",
         dark: "/images/support.webp",
         light: "/images/support_light.webp",
@@ -127,6 +134,7 @@ export const projects: Project[] = [
     screens: [
       {
         title: "Home",
+        icon: "home",
         subtitle:
           "Prayer overview, next prayer countdown, and reliable reminders.",
         dark: "/images/salati_home_dark.webp",
@@ -134,18 +142,21 @@ export const projects: Project[] = [
       },
       {
         title: "Qibla",
+        icon: "compass",
         subtitle: "Compass guidance designed for stable everyday use.",
         dark: "/images/salati_compass_dark.webp",
         light: "/images/salati_compass_light.webp",
       },
       {
         title: "Quran",
+        icon: "book",
         subtitle: "Quick surah access with calm reading-focused navigation.",
         dark: "/images/salati_quran.webp",
         light: "/images/salati_quran_light.webp",
       },
       {
         title: "Settings",
+        icon: "settings",
         subtitle:
           "Language, notifications, and prayer preferences in one place.",
         dark: "/images/salati_setting_dark.webp",
