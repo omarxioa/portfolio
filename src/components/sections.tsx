@@ -97,11 +97,11 @@ export function Contact() {
           Have a product in mind, or a Flutter codebase that needs a steady
           hand? I reply fastest on WhatsApp.
         </p>
-        <div className="mt-8 flex flex-wrap justify-center gap-4">
-          <PrimaryLink href={whatsAppUrl()} external>
+        <div className="mx-auto mt-8 grid max-w-sm gap-3 sm:flex sm:max-w-none sm:flex-wrap sm:justify-center sm:gap-4">
+          <PrimaryLink href={whatsAppUrl()} external className="w-full sm:w-auto">
             WhatsApp Me
           </PrimaryLink>
-          <SecondaryLink href={mailtoUrl()} external>
+          <SecondaryLink href={mailtoUrl()} external className="w-full sm:w-auto">
             {site.email}
           </SecondaryLink>
         </div>
