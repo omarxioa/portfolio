@@ -2,7 +2,14 @@
 
 Personal portfolio of Omar Abdelnaby — Mobile Software Engineer.
 
-Built with **Next.js (App Router) + Tailwind CSS**, exported as a fully static site and deployed to **Cloudflare Pages** by `.github/workflows/deploy.yml` on every push to `main`.
+Built with **Next.js (App Router) + Tailwind CSS**, exported as a fully static site and deployed by **Cloudflare Pages' Git integration**:
+
+- push to `main` → production (omarabdelnaby.dev)
+- push to any other branch → preview at `<branch>.portfolio-ez6.pages.dev` (e.g. `dev.portfolio-ez6.pages.dev`)
+
+Cloudflare build settings: preset *Next.js (Static HTML Export)*, build command `npm run build`, output `out`, env `NODE_VERSION=22`.
+
+The previous Flutter Web version is kept on the `flutter` branch.
 
 Every page is pre-rendered HTML, so search engines and link previews see the full content (the previous Flutter Web build shipped an empty shell that crawlers couldn't read).
 

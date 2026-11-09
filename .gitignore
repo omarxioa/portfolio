@@ -39,3 +39,17 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# Leftovers from the Flutter version (kept on the `flutter` branch)
+/android/
+/ios/
+/macos/
+/linux/
+/windows/
+/web/
+/lib/
+/.idea/
+*.iml
+.flutter-plugins
+.flutter-plugins-dependencies
+.dart_tool/
