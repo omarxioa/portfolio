@@ -97,7 +97,7 @@ export function Hero() {
   return (
     <section className="hero-glow relative flex items-center pt-16 lg:min-h-[86vh]">
       <div className="mx-auto flex w-full max-w-6xl items-center justify-between gap-10 px-5 py-14 sm:py-20">
-        <div className="max-w-[920px]">
+        <div className="w-full min-w-0 max-w-[920px] flex-1">
           <span className="inline-flex items-center gap-2 rounded-full bg-white/5 px-3.5 py-1.5 text-sm font-medium">
             <span className="h-1.5 w-1.5 rounded-full bg-lime" />
             {site.availability}
