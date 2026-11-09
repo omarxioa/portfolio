@@ -13,7 +13,7 @@ export function SelectedWork() {
       />
       <div className="mt-12 space-y-8">
         {projects.map((project) => (
-          <Card key={project.slug} className="overflow-hidden">
+          <Card key={project.slug} className="overflow-hidden" data-reveal>
             <div className="grid gap-8 p-7 sm:p-10 lg:grid-cols-[1fr_340px] lg:items-center">
               <div>
                 <div className="flex items-center gap-3">

@@ -1,6 +1,12 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
 import { site } from "@/data/site";
+import {
+  CustomCursor,
+  ParticleField,
+  Reveal,
+  Spotlight,
+} from "@/components/effects";
 import "./globals.css";
 
 const spaceGrotesk = localFont({
@@ -82,12 +88,16 @@ export default function RootLayout({
 }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html lang="en" className={`${spaceGrotesk.variable} ${manrope.variable}`}>
-      <body className="dot-grid min-h-screen">
+      <body className="min-h-screen">
         <script
           type="application/ld+json"
           dangerouslySetInnerHTML={{ __html: JSON.stringify(personJsonLd) }}
         />
+        <ParticleField />
         {children}
+        <CustomCursor />
+        <Spotlight />
+        <Reveal />
       </body>
     </html>
   );

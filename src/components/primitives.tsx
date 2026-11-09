@@ -106,13 +106,15 @@ export function SecondaryLink({
 export function Card({
   children,
   className = "",
+  ...rest
 }: {
   children: ReactNode;
   className?: string;
-}) {
+} & React.HTMLAttributes<HTMLDivElement> & { "data-reveal"?: boolean }) {
   return (
     <div
-      className={`rounded-2xl border border-white/10 bg-surface/80 backdrop-blur-sm ${className}`}
+      {...rest}
+      className={`spotlight rounded-2xl border border-white/10 bg-surface/80 backdrop-blur-sm ${className}`}
     >
       {children}
     </div>

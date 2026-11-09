@@ -9,7 +9,7 @@ import {
 
 export function About() {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+    <section data-reveal className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
       <SectionHeading
         id="about"
         eyebrow="About"
@@ -44,7 +44,7 @@ export function About() {
 
 export function Experience() {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+    <section data-reveal className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
       <SectionHeading
         id="experience"
         eyebrow="Experience"
@@ -86,7 +86,7 @@ export function Experience() {
 
 export function Contact() {
   return (
-    <section className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
+    <section data-reveal className="mx-auto max-w-6xl px-5 py-14 sm:py-20">
       <Card className="p-10 text-center sm:p-16">
         <SectionHeading
           id="contact"
