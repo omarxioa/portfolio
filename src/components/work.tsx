@@ -61,7 +61,11 @@ export function SelectedWork() {
                   ) : null}
                 </div>
               </div>
-              <ScreenGallery name={project.name} screens={project.screens} />
+              <ScreenGallery
+                name={project.name}
+                screens={project.screens}
+                rtl={project.rtl}
+              />
             </div>
           </Card>
         ))}

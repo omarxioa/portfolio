@@ -29,6 +29,8 @@ export interface Project {
   /** "beta" = TestFlight; "live" = published; "coming-soon" = not yet released. */
   storeStatus: "coming-soon" | "beta" | "live";
   screens: ProjectScreen[];
+  /** The app's tab bar runs right-to-left (Arabic UI). */
+  rtl?: boolean;
 }
 
 const projectList: Project[] = [
@@ -82,6 +84,13 @@ const projectList: Project[] = [
         light: "/images/mymed_progress_light.webp",
       },
       {
+        title: "Family",
+        icon: "support",
+        subtitle: "A care circle: follow family members and see their doses and adherence.",
+        dark: "/images/mymed_family_dark.webp",
+        light: "/images/mymed_family_light.webp",
+      },
+      {
         title: "Medications",
         icon: "pill",
         subtitle: "Active medications with remaining stock and refill timing.",
@@ -94,13 +103,6 @@ const projectList: Project[] = [
         subtitle: "Guided setup that pulls type and strength from a drug list.",
         dark: "/images/mymed_add_dark.webp",
         light: "/images/mymed_add_light.webp",
-      },
-      {
-        title: "Family",
-        icon: "support",
-        subtitle: "A care circle: follow family members and see their doses and adherence.",
-        dark: "/images/mymed_family_dark.webp",
-        light: "/images/mymed_family_light.webp",
       },
     ],
   },
@@ -140,6 +142,7 @@ const projectList: Project[] = [
     ],
     repoUrl: "https://github.com/omarxioa/taweem_salati",
     storeUrl: "https://apps.apple.com/app/id6828168679",
+    rtl: true,
     storeStatus: "live",
     screens: [
       {
@@ -149,13 +152,6 @@ const projectList: Project[] = [
           "Next prayer countdown, Hijri date, daily summary, and missed-prayer tracking.",
         dark: "/images/muslim_assistant_home_dark.webp",
         light: "/images/muslim_assistant_home_light.webp",
-      },
-      {
-        title: "Qibla",
-        icon: "compass",
-        subtitle: "Compass that confirms when you are facing the Kaaba.",
-        dark: "/images/muslim_assistant_qibla_dark.webp",
-        light: "/images/muslim_assistant_qibla_light.webp",
       },
       {
         title: "Quran",
@@ -170,6 +166,13 @@ const projectList: Project[] = [
         subtitle: "Tap anywhere to count, swipe to move between adhkar.",
         dark: "/images/muslim_assistant_tasbih_dark.webp",
         light: "/images/muslim_assistant_tasbih_light.webp",
+      },
+      {
+        title: "Qibla",
+        icon: "compass",
+        subtitle: "Compass that confirms when you are facing the Kaaba.",
+        dark: "/images/muslim_assistant_qibla_dark.webp",
+        light: "/images/muslim_assistant_qibla_light.webp",
       },
     ],
   },

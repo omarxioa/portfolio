@@ -109,6 +109,7 @@ export default async function ProjectPage({
           <ScreenGallery
             name={project.name}
             screens={project.screens}
+            rtl={project.rtl}
             priority
           />
           <div className="space-y-12 lg:pt-14">
