@@ -112,7 +112,7 @@ const projectList: Project[] = [
     name: "Muslim Assistant",
     tagline: "An offline-first Islamic companion for every prayer.",
     description:
-      "A bilingual (Arabic / English) Islamic companion, live on the App Store: prayer times calculated on the device, Adhan, prayer tracking, Quran, tasbih, after-prayer adhkar and a Qibla compass.",
+      "A bilingual (Arabic / English) Islamic companion: prayer times calculated on the device, Adhan, prayer tracking, Quran, tasbih, after-prayer adhkar and a Qibla compass.",
     problem:
       "Missing prayers often happens because reminders stop working in the background or depend on internet connectivity.",
     solution:
@@ -120,7 +120,6 @@ const projectList: Project[] = [
     impact:
       "Built as a scalable Flutter application focused on reliability, local scheduling, accessibility and distraction-free daily worship.",
     highlights: [
-      "Live on the App Store",
       "Offline-first runtime with reliable prayer alerts",
       "Arabic & English, built solo from design to release",
     ],

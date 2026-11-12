@@ -87,7 +87,7 @@ export const experiences: Experience[] = [
       "Own mobile delivery end to end, from architecture and estimation through App Store and Google Play release and post-launch monitoring.",
       "Set the Flutter standards the team builds against: Riverpod for state, Clean Architecture boundaries between layers, and review on every pull request.",
       "Integrate REST APIs, Firebase, local databases, push notifications, Google Maps, and background services.",
-      "Grew developers through code review, pairing, and hands-on onboarding to the codebase and its conventions.",
+      "Grow developers through code review, pairing, and hands-on onboarding to the codebase and its conventions.",
     ],
     technologies: [
       "Flutter",
