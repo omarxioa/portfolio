@@ -24,15 +24,17 @@ export interface Project {
   duration: string;
   technologies: string[];
   repoUrl?: string;
-  /** Not yet on the stores — rendered as a "coming soon" badge. */
-  storeStatus: "coming-soon" | "live";
+  /** App Store link, shown when the app is live. */
+  storeUrl?: string;
+  /** "beta" = TestFlight; "live" = published; "coming-soon" = not yet released. */
+  storeStatus: "coming-soon" | "beta" | "live";
   screens: ProjectScreen[];
 }
 
-export const projects: Project[] = [
+const projectList: Project[] = [
   {
     slug: "mymed",
-    order: "01",
+    order: "02",
     name: "myMed",
     tagline: "Medication reminders that survive the real world.",
     description:
@@ -51,7 +53,7 @@ export const projects: Project[] = [
       "Implemented local persistence and sync-safe data flows.",
       "Built notification and reminder reliability across app states.",
     ],
-    role: "Founder & Senior Flutter Developer",
+    role: "Creator & Lead Flutter Developer",
     scope: "Product, Architecture, Delivery",
     duration: "2024 - Present",
     technologies: [
@@ -63,7 +65,7 @@ export const projects: Project[] = [
       "Offline Sync",
     ],
     repoUrl: "https://github.com/omarxioa/myMed",
-    storeStatus: "coming-soon",
+    storeStatus: "beta",
     screens: [
       {
         title: "Today",
@@ -97,11 +99,11 @@ export const projects: Project[] = [
   },
   {
     slug: "salati",
-    order: "02",
-    name: "Salati",
+    order: "01",
+    name: "Muslim Assistant",
     tagline: "An offline-first Islamic companion for every prayer.",
     description:
-      "An offline-first Islamic companion designed to help Muslims stay connected to every prayer through reliable reminders, full Adhan playback, Quran access and Qibla guidance.",
+      "A bilingual (Arabic / English) Islamic companion, live on the App Store: prayer times calculated on the device, Adhan, prayer tracking, Quran, tasbih, after-prayer adhkar and a Qibla compass.",
     problem:
       "Missing prayers often happens because reminders stop working in the background or depend on internet connectivity.",
     solution:
@@ -109,16 +111,16 @@ export const projects: Project[] = [
     impact:
       "Built as a scalable Flutter application focused on reliability, local scheduling, accessibility and distraction-free daily worship.",
     highlights: [
-      "Offline-first runtime",
-      "Reliable prayer alerts",
-      "Multilingual UX",
+      "Live on the App Store",
+      "Offline-first runtime with reliable prayer alerts",
+      "Arabic & English, built solo from design to release",
     ],
     contributions: [
       "Engineered background-safe scheduling for prayer reminders.",
       "Integrated Quran, Qibla, and settings into one cohesive flow.",
       "Shaped interaction model for calm and focused daily usage.",
     ],
-    role: "Founder & Senior Flutter Developer",
+    role: "Creator & Lead Flutter Developer",
     scope: "Product, Architecture, Delivery",
     duration: "2024 - Present",
     technologies: [
@@ -130,7 +132,8 @@ export const projects: Project[] = [
       "Audio",
     ],
     repoUrl: "https://github.com/omarxioa/taweem_salati",
-    storeStatus: "coming-soon",
+    storeUrl: "https://apps.apple.com/app/id6828168679",
+    storeStatus: "live",
     screens: [
       {
         title: "Home",
@@ -165,6 +168,11 @@ export const projects: Project[] = [
     ],
   },
 ];
+
+/** Sorted by `order` so the live app leads. */
+export const projects: Project[] = [...projectList].sort((a, b) =>
+  a.order.localeCompare(b.order),
+);
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);

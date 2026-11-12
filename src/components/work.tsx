@@ -23,9 +23,13 @@ export function SelectedWork() {
                   <h3 className="font-display text-3xl font-semibold">
                     {project.name}
                   </h3>
-                  {project.storeStatus === "coming-soon" ? (
+                  {project.storeStatus === "live" ? (
+                    <Badge>Live on the App Store</Badge>
+                  ) : project.storeStatus === "beta" ? (
+                    <Badge>In beta on TestFlight</Badge>
+                  ) : (
                     <Badge>Coming soon to stores</Badge>
-                  ) : null}
+                  )}
                 </div>
                 <p className="mt-4 text-lg text-muted">{project.description}</p>
                 <ul className="mt-6 space-y-2 text-muted">
@@ -41,10 +45,20 @@ export function SelectedWork() {
                     <Tag key={t}>{t}</Tag>
                   ))}
                 </div>
-                <div className="mt-8">
+                <div className="mt-8 flex flex-wrap items-center gap-x-8 gap-y-3">
                   <ArrowLink href={`/projects/${project.slug}/`}>
                     Read the case study
                   </ArrowLink>
+                  {project.storeStatus === "live" && project.storeUrl ? (
+                    <a
+                      href={project.storeUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="font-display text-sm font-semibold text-mint hover:underline"
+                    >
+                      View on the App Store ↗
+                    </a>
+                  ) : null}
                 </div>
               </div>
               <ScreenGallery name={project.name} screens={project.screens} />
