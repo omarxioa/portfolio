@@ -83,7 +83,7 @@ export const experiences: Experience[] = [
     role: "Co-Founder & Mobile Team Lead",
     duration: "Apr 2021 - Present",
     achievements: [
-      "Lead a team of 3 mobile engineers building client and in-house apps for iOS and Android with Flutter.",
+      "Lead a team of mobile engineers building client and in-house apps for iOS and Android with Flutter.",
       "Own mobile delivery end to end, from architecture and estimation through App Store and Google Play release and post-launch monitoring.",
       "Set the Flutter standards the team builds against: Riverpod for state, Clean Architecture boundaries between layers, and review on every pull request.",
       "Integrate REST APIs, Firebase, local databases, push notifications, Google Maps, and background services.",
