@@ -14,7 +14,7 @@ export const site = {
   linkedin: "https://www.linkedin.com/in/omar-xioa/",
   whatsAppNumber: "201140222004",
   cvPath: "/cv/Omar-cv.pdf",
-  location: "Egypt",
+  location: "Cairo, Egypt",
   availability: "Available for work",
   heroGreeting: "Hi, I'm Omar.",
   heroRole: ["Mobile Software", "Engineer."],
@@ -28,8 +28,8 @@ export const site = {
   ],
   about:
     "Mobile Software Engineer with 5+ years building production-ready iOS " +
-    "and Android applications with Flutter, and seven in software. I founded SOAcode, where I lead mobile " +
-    "development for client and in-house products: architecture, delivery, " +
+    "and Android applications with Flutter, and seven in software. I co-founded SOAcode, where I lead " +
+    "a team of mobile engineers building client and in-house products: architecture, delivery, " +
     "and the standards the team builds against.",
   skills: [
     "Flutter",
@@ -80,11 +80,13 @@ export interface Experience {
 export const experiences: Experience[] = [
   {
     company: "SOAcode",
-    role: "Founder & Mobile Development Team Lead",
-    duration: "2021 - Present",
+    role: "Co-Founder & Mobile Team Lead",
+    duration: "Apr 2021 - Present",
     achievements: [
-      "Lead mobile development end to end, from architecture and estimation through store release and post-launch monitoring.",
+      "Lead a team of mobile engineers building client and in-house apps for iOS and Android with Flutter.",
+      "Own mobile delivery end to end, from architecture and estimation through App Store and Google Play release and post-launch monitoring.",
       "Set the Flutter standards the team builds against: Riverpod for state, Clean Architecture boundaries between layers, and review on every pull request.",
+      "Integrate REST APIs, Firebase, local databases, push notifications, Google Maps, and background services.",
       "Grew developers through code review, pairing, and hands-on onboarding to the codebase and its conventions.",
     ],
     technologies: [
@@ -99,11 +101,12 @@ export const experiences: Experience[] = [
   {
     company: "Syntax",
     role: "DevOps Engineer",
-    duration: "2019 - 2021",
+    duration: "Jun 2019 - Mar 2021",
     achievements: [
       "Built and maintained CI/CD pipelines, automating build and release workflows that had been run by hand.",
-      "Managed deployment environments and production monitoring, shortening the path from merge to a verified release.",
+      "Managed Linux servers, hosting, and deployment environments for web and mobile apps.",
+      "Ran production monitoring and maintenance, shortening the path from merge to a verified release.",
     ],
-    technologies: ["CI/CD", "Git"],
+    technologies: ["CI/CD", "Git", "Linux"],
   },
 ];

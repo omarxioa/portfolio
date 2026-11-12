@@ -24,15 +24,19 @@ export interface Project {
   duration: string;
   technologies: string[];
   repoUrl?: string;
-  /** Not yet on the stores — rendered as a "coming soon" badge. */
-  storeStatus: "coming-soon" | "live";
+  /** App Store link, shown when the app is live. */
+  storeUrl?: string;
+  /** "beta" = TestFlight; "live" = published; "coming-soon" = not yet released. */
+  storeStatus: "coming-soon" | "beta" | "live";
   screens: ProjectScreen[];
+  /** The app's tab bar runs right-to-left (Arabic UI). */
+  rtl?: boolean;
 }
 
-export const projects: Project[] = [
+const projectList: Project[] = [
   {
     slug: "mymed",
-    order: "01",
+    order: "02",
     name: "myMed",
     tagline: "Medication reminders that survive the real world.",
     description:
@@ -51,7 +55,7 @@ export const projects: Project[] = [
       "Implemented local persistence and sync-safe data flows.",
       "Built notification and reminder reliability across app states.",
     ],
-    role: "Founder & Senior Flutter Developer",
+    role: "Creator & Lead Flutter Developer",
     scope: "Product, Architecture, Delivery",
     duration: "2024 - Present",
     technologies: [
@@ -63,45 +67,52 @@ export const projects: Project[] = [
       "Offline Sync",
     ],
     repoUrl: "https://github.com/omarxioa/myMed",
-    storeStatus: "coming-soon",
+    storeStatus: "beta",
     screens: [
       {
         title: "Today",
         icon: "home",
-        subtitle: "Daily plan, reminders, and caregiver support at a glance.",
-        dark: "/images/today.webp",
-        light: "/images/today_light.webp",
+        subtitle: "Today's adherence, the next dose with one-tap confirm or snooze, and every dose of the day.",
+        dark: "/images/mymed_today_dark.webp",
+        light: "/images/mymed_today_light.webp",
       },
       {
         title: "Progress",
         icon: "chart",
-        subtitle: "Weekly consistency, streaks, and missed-dose recovery.",
-        dark: "/images/progress.webp",
-        light: "/images/progress_light.webp",
+        subtitle: "Weekly to 3-month adherence, streaks, and daily trends.",
+        dark: "/images/mymed_progress_dark.webp",
+        light: "/images/mymed_progress_light.webp",
       },
       {
-        title: "Treatment",
-        icon: "pill",
-        subtitle: "Medication timelines, instructions, and refill tracking.",
-        dark: "/images/treatment.webp",
-        light: "/images/treatment_light.webp",
-      },
-      {
-        title: "Support",
+        title: "Family",
         icon: "support",
-        subtitle: "Caregiver activity, check-ins, and shared accountability.",
-        dark: "/images/support.webp",
-        light: "/images/support_light.webp",
+        subtitle: "A care circle: follow family members and see their doses and adherence.",
+        dark: "/images/mymed_family_dark.webp",
+        light: "/images/mymed_family_light.webp",
+      },
+      {
+        title: "Medications",
+        icon: "pill",
+        subtitle: "Active medications with remaining stock and refill timing.",
+        dark: "/images/mymed_medications_dark.webp",
+        light: "/images/mymed_medications_light.webp",
+      },
+      {
+        title: "Add medication",
+        icon: "plus",
+        subtitle: "Guided setup that pulls type and strength from a drug list.",
+        dark: "/images/mymed_add_dark.webp",
+        light: "/images/mymed_add_light.webp",
       },
     ],
   },
   {
     slug: "salati",
-    order: "02",
-    name: "Salati",
+    order: "01",
+    name: "Muslim Assistant",
     tagline: "An offline-first Islamic companion for every prayer.",
     description:
-      "An offline-first Islamic companion designed to help Muslims stay connected to every prayer through reliable reminders, full Adhan playback, Quran access and Qibla guidance.",
+      "A bilingual (Arabic / English) Islamic companion, live on the App Store: prayer times calculated on the device, Adhan, prayer tracking, Quran, tasbih, after-prayer adhkar and a Qibla compass.",
     problem:
       "Missing prayers often happens because reminders stop working in the background or depend on internet connectivity.",
     solution:
@@ -109,16 +120,16 @@ export const projects: Project[] = [
     impact:
       "Built as a scalable Flutter application focused on reliability, local scheduling, accessibility and distraction-free daily worship.",
     highlights: [
-      "Offline-first runtime",
-      "Reliable prayer alerts",
-      "Multilingual UX",
+      "Live on the App Store",
+      "Offline-first runtime with reliable prayer alerts",
+      "Arabic & English, built solo from design to release",
     ],
     contributions: [
       "Engineered background-safe scheduling for prayer reminders.",
-      "Integrated Quran, Qibla, and settings into one cohesive flow.",
+      "Integrated Quran, Qibla, and tasbih into one cohesive flow.",
       "Shaped interaction model for calm and focused daily usage.",
     ],
-    role: "Founder & Senior Flutter Developer",
+    role: "Creator & Lead Flutter Developer",
     scope: "Product, Architecture, Delivery",
     duration: "2024 - Present",
     technologies: [
@@ -130,41 +141,47 @@ export const projects: Project[] = [
       "Audio",
     ],
     repoUrl: "https://github.com/omarxioa/taweem_salati",
-    storeStatus: "coming-soon",
+    storeUrl: "https://apps.apple.com/app/id6828168679",
+    rtl: true,
+    storeStatus: "live",
     screens: [
       {
         title: "Home",
         icon: "home",
         subtitle:
-          "Prayer overview, next prayer countdown, and reliable reminders.",
-        dark: "/images/salati_home_dark.webp",
-        light: "/images/salati_home_light.webp",
-      },
-      {
-        title: "Qibla",
-        icon: "compass",
-        subtitle: "Compass guidance designed for stable everyday use.",
-        dark: "/images/salati_compass_dark.webp",
-        light: "/images/salati_compass_light.webp",
+          "Next prayer countdown, Hijri date, daily summary, and missed-prayer tracking.",
+        dark: "/images/muslim_assistant_home_dark.webp",
+        light: "/images/muslim_assistant_home_light.webp",
       },
       {
         title: "Quran",
         icon: "book",
-        subtitle: "Quick surah access with calm reading-focused navigation.",
-        dark: "/images/salati_quran.webp",
-        light: "/images/salati_quran_light.webp",
+        subtitle: "Search, every surah, and continue reading where you left off.",
+        dark: "/images/muslim_assistant_quran_dark.webp",
+        light: "/images/muslim_assistant_quran_light.webp",
       },
       {
-        title: "Settings",
-        icon: "settings",
-        subtitle:
-          "Language, notifications, and prayer preferences in one place.",
-        dark: "/images/salati_setting_dark.webp",
-        light: "/images/salati_setting_light.webp",
+        title: "Tasbih",
+        icon: "tap",
+        subtitle: "Tap anywhere to count, swipe to move between adhkar.",
+        dark: "/images/muslim_assistant_tasbih_dark.webp",
+        light: "/images/muslim_assistant_tasbih_light.webp",
+      },
+      {
+        title: "Qibla",
+        icon: "compass",
+        subtitle: "Compass that confirms when you are facing the Kaaba.",
+        dark: "/images/muslim_assistant_qibla_dark.webp",
+        light: "/images/muslim_assistant_qibla_light.webp",
       },
     ],
   },
 ];
+
+/** Sorted by `order` so the live app leads. */
+export const projects: Project[] = [...projectList].sort((a, b) =>
+  a.order.localeCompare(b.order),
+);
 
 export function getProject(slug: string): Project | undefined {
   return projects.find((p) => p.slug === slug);

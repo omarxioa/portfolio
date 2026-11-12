@@ -73,9 +73,13 @@ export default async function ProjectPage({
           <h1 className="font-display text-4xl font-bold sm:text-5xl">
             {project.name}
           </h1>
-          {project.storeStatus === "coming-soon" ? (
+          {project.storeStatus === "live" ? (
+            <Badge>Live on the App Store</Badge>
+          ) : project.storeStatus === "beta" ? (
+            <Badge>In beta on TestFlight</Badge>
+          ) : (
             <Badge>Coming soon to the App Store &amp; Google Play</Badge>
-          ) : null}
+          )}
         </div>
         <p className="mt-4 max-w-2xl text-xl text-muted">{project.tagline}</p>
         <p className="mt-4 max-w-3xl text-lg leading-relaxed text-muted">
@@ -105,6 +109,7 @@ export default async function ProjectPage({
           <ScreenGallery
             name={project.name}
             screens={project.screens}
+            rtl={project.rtl}
             priority
           />
           <div className="space-y-12 lg:pt-14">
@@ -144,6 +149,11 @@ export default async function ProjectPage({
         </section>
 
         <div className="mt-16 flex flex-wrap gap-4">
+          {project.storeStatus === "live" && project.storeUrl ? (
+            <PrimaryLink href={project.storeUrl} external>
+              View on the App Store
+            </PrimaryLink>
+          ) : null}
           <PrimaryLink href={whatsAppInquiryUrl(project.name)} external>
             Discuss This Project
           </PrimaryLink>

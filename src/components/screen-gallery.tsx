@@ -18,13 +18,16 @@ export function ScreenGallery({
   name,
   screens,
   priority = false,
+  rtl = false,
 }: {
   name: string;
   screens: ProjectScreen[];
   priority?: boolean;
+  /** Lay the nav buttons out right-to-left, matching an Arabic app's tab bar. */
+  rtl?: boolean;
 }) {
   const [active, setActive] = useState(0);
-  const [light, setLight] = useState(false);
+  const [light, setLight] = useState(true);
   const touchX = useRef<number | null>(null);
   const screen = screens[active];
 
@@ -37,8 +40,8 @@ export function ScreenGallery({
       tabIndex={0}
       aria-label={`${name} screen preview. Use left and right arrow keys to change screens.`}
       onKeyDown={(e) => {
-        if (e.key === "ArrowRight") go(1);
-        if (e.key === "ArrowLeft") go(-1);
+        if (e.key === "ArrowRight") go(rtl ? -1 : 1);
+        if (e.key === "ArrowLeft") go(rtl ? 1 : -1);
       }}
     >
       {/* Dark / Light segmented switch */}
@@ -49,8 +52,8 @@ export function ScreenGallery({
       >
         {(
           [
-            { value: false, label: "Dark", icon: "moon" },
             { value: true, label: "Light", icon: "sun" },
+            { value: false, label: "Dark", icon: "moon" },
           ] as const
         ).map((opt) => {
           const selected = light === opt.value;
@@ -81,7 +84,7 @@ export function ScreenGallery({
         onTouchEnd={(e) => {
           if (touchX.current === null) return;
           const dx = e.changedTouches[0].clientX - touchX.current;
-          if (Math.abs(dx) > 40) go(dx < 0 ? 1 : -1);
+          if (Math.abs(dx) > 40) go((dx < 0) !== rtl ? 1 : -1);
           touchX.current = null;
         }}
       >
@@ -117,7 +120,12 @@ export function ScreenGallery({
       </div>
 
       {/* App nav icons */}
-      <div className="mt-3 flex gap-2.5" role="tablist" aria-label="Screens">
+      <div
+        className="mt-3 flex gap-2.5"
+        role="tablist"
+        aria-label="Screens"
+        dir={rtl ? "rtl" : undefined}
+      >
         {screens.map((s, i) => {
           const selected = i === active;
           return (
