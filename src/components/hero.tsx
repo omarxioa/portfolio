@@ -86,7 +86,7 @@ function HeroPhones() {
       </div>
       <div className="absolute right-0 top-0 w-[230px] rotate-[5deg] rounded-[2.2rem] border border-white/10 bg-elevated p-2 shadow-[0_30px_80px_-20px_rgba(0,0,0,0.9)]">
         <div className="relative aspect-[9/19.5] overflow-hidden rounded-[1.8rem]">
-          <Image src="/images/salati_home_dark.webp" alt="" fill sizes="230px" className="object-cover object-top" priority />
+          <Image src="/images/muslim_assistant_home_dark.webp" alt="" fill sizes="230px" className="object-cover object-top" priority />
         </div>
       </div>
     </div>
