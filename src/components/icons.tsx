@@ -9,6 +9,7 @@ export type IconName =
   | "book"
   | "settings"
   | "tap"
+  | "plus"
   | "moon"
   | "sun";
 
@@ -61,6 +62,12 @@ const paths: Record<IconName, ReactElement> = {
       <path d="M14 10V9a2 2 0 0 0-4 0v1" />
       <path d="M10 9.5V4a2 2 0 0 0-4 0v10" />
       <path d="M18 11a2 2 0 1 1 4 0v3a8 8 0 0 1-8 8h-2c-2.8 0-4.5-.86-6-2.34l-3.6-3.6a2 2 0 0 1 2.83-2.82L6 15" />
+    </>
+  ),
+  plus: (
+    <>
+      <path d="M12 5v14" />
+      <path d="M5 12h14" />
     </>
   ),
   moon: <path d="M20.5 14.5A8.5 8.5 0 1 1 9.5 3.5a7 7 0 0 0 11 11z" />,
