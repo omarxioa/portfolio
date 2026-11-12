@@ -70,7 +70,7 @@ const projectList: Project[] = [
       {
         title: "Today",
         icon: "home",
-        subtitle: "Today's adherence, the next dose, and every dose of the day.",
+        subtitle: "Today's adherence, the next dose with one-tap confirm or snooze, and every dose of the day.",
         dark: "/images/mymed_today_dark.webp",
         light: "/images/mymed_today_light.webp",
       },
@@ -98,7 +98,7 @@ const projectList: Project[] = [
       {
         title: "Family",
         icon: "support",
-        subtitle: "A care circle: share an invite code so family can follow along.",
+        subtitle: "A care circle: follow family members and see their doses and adherence.",
         dark: "/images/mymed_family_dark.webp",
         light: "/images/mymed_family_light.webp",
       },
