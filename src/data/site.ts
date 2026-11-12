@@ -29,7 +29,7 @@ export const site = {
   about:
     "Mobile Software Engineer with 5+ years building production-ready iOS " +
     "and Android applications with Flutter, and seven in software. I co-founded SOAcode, where I lead " +
-    "a team of 3 mobile engineers building client and in-house products: architecture, delivery, " +
+    "a team of mobile engineers building client and in-house products: architecture, delivery, " +
     "and the standards the team builds against.",
   skills: [
     "Flutter",
