@@ -15,7 +15,7 @@ export const site = {
   whatsAppNumber: "201140222004",
   cvPath: "/cv/Omar-cv.pdf",
   location: "Cairo, Egypt",
-  availability: "Open to relocate to Saudi Arabia",
+  availability: "Available for work",
   heroGreeting: "Hi, I'm Omar.",
   heroRole: ["Mobile Software", "Engineer."],
   heroTypingPrefix: "Building ",
